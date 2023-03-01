@@ -1,0 +1,63 @@
+package com.echo.taask.helper;
+
+import com.echo.taask.model.Task;
+import com.echo.taask.repository.TaskRepository;
+import com.google.gson.Gson;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoOperations;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.stereotype.Component;
+import org.springframework.data.mongodb.core.query.Query;
+import java.util.List;
+
+@Component
+public class TaskHelper {
+
+    @Autowired
+    TaskRepository taskRepository;
+
+    @Autowired
+    MongoOperations mongoOperations;
+
+
+    Gson gson = new Gson();
+    public List<Task> getAllTasks(){
+        try{
+            return taskRepository.findAll();
+        }catch (Exception e)
+        {
+            throw e;
+        }
+    }
+
+
+
+    public String saveTasks(Task task){
+        try {
+            //String password = user.getPassword();
+            taskRepository.save(task);
+            return "Task saved";
+        }catch (Exception e)
+        {
+            throw e;
+        }
+    }
+
+    public String getTasks(String userId){
+        try{
+            System.out.println("Getting tasks for : " + userId);
+            Query query = new Query();
+            query.addCriteria(Criteria.where("userid").is(userId));
+            List<Task> tasks = mongoOperations.find(query, Task.class);
+            for(Task task:tasks)
+            {
+                System.out.println("Tasks found : " + task.getTaskname());
+            }
+            String json = gson.toJson(tasks);
+            return json;
+        }catch (Exception e)
+        {
+            throw e;
+        }
+    }
+}
