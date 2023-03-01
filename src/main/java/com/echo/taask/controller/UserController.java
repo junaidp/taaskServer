@@ -20,7 +20,7 @@ public class UserController {
   private TaskHelper taskhelper;
 
 
-  @GetMapping("getAllUsers")
+  @GetMapping("/getAllUsers")
     public List<User> getUsers(){
       return service.getAllUsers();
   }
