@@ -1,1 +1,1 @@
-web: java -jar target/task-0.0.1-SNAPSHOT.jar
+web: java -jar target/taask-0.0.1.jar
