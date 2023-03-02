@@ -16,9 +16,6 @@ import java.util.List;
 public class UserController {
   private UserHelper service;
 
-  @Autowired
-  private TaskHelper taskhelper;
-
 
   @GetMapping("/getAllUsers")
     public List<User> getUsers(){
