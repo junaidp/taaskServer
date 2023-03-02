@@ -17,7 +17,7 @@ public class UserController {
   private UserHelper service;
 
 
-  @GetMapping("getAllUsers")
+  @GetMapping("/getAllUsers")
     public List<User> getUsers(){
       return service.getAllUsers();
   }
