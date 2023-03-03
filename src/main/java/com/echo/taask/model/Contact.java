@@ -3,10 +3,9 @@ package com.echo.taask.model;
 import nonapi.io.github.classgraph.json.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document
-public class Contacts {
 
-    @Id
+public class Contact {
+
     private String id;
     private String name;
     private String jobtitle;

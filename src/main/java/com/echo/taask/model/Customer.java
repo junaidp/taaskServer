@@ -4,6 +4,8 @@ package com.echo.taask.model;
 import nonapi.io.github.classgraph.json.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.List;
+
 @Document
 public class Customer {
 
@@ -17,6 +19,15 @@ public class Customer {
     private String customerstage;
     private String customersince;
     private String customernotes;
+    private List<Contact> contacts;
+
+    public List<Contact> getContacts() {
+        return contacts;
+    }
+
+    public void setContacts(List<Contact> contacts) {
+        this.contacts = contacts;
+    }
 
     public String getId() {
         return id;

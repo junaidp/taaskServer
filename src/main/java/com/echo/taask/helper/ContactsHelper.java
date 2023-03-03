@@ -1,7 +1,6 @@
 package com.echo.taask.helper;
 
-import ch.qos.logback.core.encoder.EchoEncoder;
-import com.echo.taask.model.Contacts;
+import com.echo.taask.model.Contact;
 import com.echo.taask.repository.ContactsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -14,7 +13,7 @@ public class ContactsHelper {
     @Autowired
     ContactsRepository contactsRepository;
 
-    public String saveContacts(Contacts contact)
+    public String saveContacts(Contact contact)
     {
         try{
             contactsRepository.save(contact);
@@ -25,7 +24,7 @@ public class ContactsHelper {
         }
     }
 
-    public List<Contacts> getAllcontacts()
+    public List<Contact> getAllcontacts()
     {
         try{
              return contactsRepository.findAll();

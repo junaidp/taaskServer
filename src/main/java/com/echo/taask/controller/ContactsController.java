@@ -2,7 +2,7 @@ package com.echo.taask.controller;
 
 
 import com.echo.taask.helper.ContactsHelper;
-import com.echo.taask.model.Contacts;
+import com.echo.taask.model.Contact;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,13 +18,13 @@ public class ContactsController {
     ContactsHelper contactsHelper;
 
     @PostMapping("savecontact")
-    public String savecontacts(@RequestParam Contacts contact)
+    public String savecontacts(@RequestParam Contact contact)
     {
         return contactsHelper.saveContacts(contact);
     }
 
     @GetMapping("getallcontacts")
-    public List<Contacts> getallcontacts()
+    public List<Contact> getallcontacts()
     {
         return contactsHelper.getAllcontacts();
     }
