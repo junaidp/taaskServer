@@ -23,7 +23,7 @@ public class UserController {
   }
 
   @PostMapping("saveUser")
-  public String saveUser(@RequestParam User user){
+  public String saveUser(@RequestBody User user){
       return service.saveUser(user);
   }
 

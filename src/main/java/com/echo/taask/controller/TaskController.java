@@ -16,7 +16,7 @@ public class TaskController {
     TaskHelper taskhelper;
 
     @PostMapping("saveTask")
-    public String saveTask(@RequestParam Task task)
+    public String saveTask(@RequestBody Task task)
     {
         return taskhelper.saveTasks(task);
     }

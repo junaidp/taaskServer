@@ -18,7 +18,7 @@ public class ContactsController {
     ContactsHelper contactsHelper;
 
     @PostMapping("savecontact")
-    public String savecontacts(@RequestParam Contact contact)
+    public String savecontacts(@RequestBody Contact contact)
     {
         return contactsHelper.saveContacts(contact);
     }

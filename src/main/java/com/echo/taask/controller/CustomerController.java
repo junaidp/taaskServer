@@ -17,8 +17,9 @@ public class CustomerController {
     CustomerHelper customerhelper;
 
     @PostMapping("savecustomer")
-    public String savecustomer(@RequestParam Customer customer)
+    public String savecustomer(@RequestBody Customer customer)
     {
+
         return customerhelper.saveCustomer(customer);
     }
 
