@@ -4,6 +4,8 @@ package com.echo.taask.controller;
 import com.echo.taask.helper.CustomerHelper;
 import com.echo.taask.model.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,10 +19,14 @@ public class CustomerController {
     CustomerHelper customerhelper;
 
     @PostMapping("savecustomer")
-    public String savecustomer(@RequestBody Customer customer)
+    public ResponseEntity<String> savecustomer(@RequestBody Customer customer)
     {
-
-        return customerhelper.saveCustomer(customer);
+        try {
+            return new ResponseEntity<>(customerhelper.saveCustomer(customer), HttpStatus.OK);
+        }catch(Exception ex)
+        {
+            return new ResponseEntity("Failed to save customer", HttpStatus.BAD_REQUEST);
+        }
     }
 
     @GetMapping("getallcustomers")
