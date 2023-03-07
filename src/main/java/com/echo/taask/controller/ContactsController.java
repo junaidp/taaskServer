@@ -2,8 +2,11 @@ package com.echo.taask.controller;
 
 
 import com.echo.taask.helper.ContactsHelper;
+import com.echo.taask.helper.CustomerHelper;
 import com.echo.taask.model.Contact;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,20 +17,33 @@ import java.util.List;
 public class ContactsController {
 
 
+    private ContactsHelper contactsHelper;
+
     @Autowired
-    ContactsHelper contactsHelper;
-
-    @PostMapping("savecontact")
-    public String savecontacts(@RequestBody Contact contact)
+    public ContactsController(ContactsHelper contactsHelper)
     {
-        return contactsHelper.saveContacts(contact);
+        this.contactsHelper =  contactsHelper;
     }
 
-    @GetMapping("getallcontacts")
-    public List<Contact> getallcontacts()
+    @PostMapping("saveContact")
+    public ResponseEntity<String> saveContacts(@RequestBody Contact contact)
     {
-        return contactsHelper.getAllcontacts();
+        try {
+            return new ResponseEntity<>(contactsHelper.saveContacts(contact), HttpStatus.OK);
+        }catch (Exception ex){
+            return new ResponseEntity<>("Failed to Save Contacts" , HttpStatus.BAD_REQUEST);
+        }
     }
 
+    @GetMapping("getAllContacts")
+    public ResponseEntity<List<Contact>> getAllContacts()
+    {
+        try{
+            return new ResponseEntity<>(contactsHelper.getAllContacts(),HttpStatus.OK);
+        }catch (Exception ex){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+    }
 
 }

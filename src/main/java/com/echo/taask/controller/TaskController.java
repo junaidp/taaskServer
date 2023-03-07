@@ -4,6 +4,8 @@ package com.echo.taask.controller;
 import com.echo.taask.helper.TaskHelper;
 import com.echo.taask.model.Task;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,25 +14,42 @@ import java.util.List;
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
 public class TaskController {
-    @Autowired
-    TaskHelper taskhelper;
+
+    private TaskHelper taskHelper;
+    public TaskController(TaskHelper taskHelper)
+    {
+        this.taskHelper = taskHelper;
+    }
 
     @PostMapping("saveTask")
-    public String saveTask(@RequestBody Task task)
+    public ResponseEntity<String> saveTask(@RequestBody Task task)
     {
-        return taskhelper.saveTasks(task);
+        try {
+            return new ResponseEntity<>(taskHelper.saveTasks(task),HttpStatus.OK);
+        }catch (Exception ex){
+            return new ResponseEntity<>("Failed to Save Task", HttpStatus.BAD_REQUEST);
+        }
     }
 
     @GetMapping("getAllTasks")
-    public List<Task> getAllTasks()
+    public ResponseEntity<List<Task>> getAllTasks()
     {
-        return taskhelper.getAllTasks();
+        try {
+            return new ResponseEntity<>(taskHelper.getAllTasks(),HttpStatus.OK);
+        }catch (Exception ex){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
-    @GetMapping("gettask")
-    public String gettask(@RequestParam String userid)
+    @GetMapping("getTask")
+    public ResponseEntity<String> getTask(@RequestParam String userid)
     {
-        return taskhelper.getTasks(userid);
+        try {
+            return new ResponseEntity<>(taskHelper.getTasks(userid),HttpStatus.OK);
+        }catch (Exception ex)
+        {
+            return new ResponseEntity<>("Failed to Get Task",HttpStatus.BAD_REQUEST);
+        }
     }
 
 }

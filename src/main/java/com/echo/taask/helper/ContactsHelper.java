@@ -24,7 +24,7 @@ public class ContactsHelper {
         }
     }
 
-    public List<Contact> getAllcontacts()
+    public List<Contact> getAllContacts()
     {
         try{
              return contactsRepository.findAll();

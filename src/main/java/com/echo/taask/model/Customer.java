@@ -16,9 +16,9 @@ public class Customer {
     private String name;
     private String location;
     private String website;
-    private String customerstage;
-    private String customersince;
-    private String customernotes;
+    private String customerStage;
+    private String customerSince;
+    private String customerNotes;
     private List<Contact> contacts;
 
     public List<Contact> getContacts() {
@@ -69,27 +69,27 @@ public class Customer {
         this.website = website;
     }
 
-    public String getCustomerstage() {
-        return customerstage;
+    public String getCustomerStage() {
+        return customerStage;
     }
 
-    public void setCustomerstage(String customerstage) {
-        this.customerstage = customerstage;
+    public void setCustomerStage(String customerStage) {
+        this.customerStage = customerStage;
     }
 
-    public String getCustomersince() {
-        return customersince;
+    public String getCustomerSince() {
+        return customerSince;
     }
 
-    public void setCustomersince(String customersince) {
-        this.customersince = customersince;
+    public void setCustomerSince(String customerSince) {
+        this.customerSince = customerSince;
     }
 
-    public String getCustomernotes() {
-        return customernotes;
+    public String getCustomerNotes() {
+        return customerNotes;
     }
 
-    public void setCustomernotes(String customernotes) {
-        this.customernotes = customernotes;
+    public void setCustomerNotes(String customerNotes) {
+        this.customerNotes = customerNotes;
     }
 }

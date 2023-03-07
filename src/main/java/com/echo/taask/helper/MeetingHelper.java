@@ -13,7 +13,7 @@ public class MeetingHelper {
     @Autowired
     MeetingRepository meetingRepository;
 
-    public String savemeeting(Meeting meeting)
+    public String saveMeeting(Meeting meeting)
     {
         try {
             meetingRepository.save(meeting);

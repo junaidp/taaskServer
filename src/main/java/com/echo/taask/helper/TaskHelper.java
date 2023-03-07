@@ -51,7 +51,7 @@ public class TaskHelper {
             List<Task> tasks = mongoOperations.find(query, Task.class);
             for(Task task:tasks)
             {
-                System.out.println("Tasks found : " + task.getTaskname());
+                System.out.println("Tasks found : " + task.getTaskName());
             }
             String json = gson.toJson(tasks);
             return json;

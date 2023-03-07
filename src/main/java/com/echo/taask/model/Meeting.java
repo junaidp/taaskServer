@@ -9,8 +9,8 @@ public class Meeting {
     @Id
     private String id;
 
-    private String meetingname;
-    private int meetingid;
+    private String meetingName;
+    private int meetingId;
 
     public String getId() {
         return id;
@@ -21,18 +21,18 @@ public class Meeting {
     }
 
     public String getMeetingname() {
-        return meetingname;
+        return meetingName;
     }
 
-    public void setMeetingname(String meetingname) {
-        this.meetingname = meetingname;
+    public void setMeetingName(String meetingname) {
+        this.meetingName = meetingname;
     }
 
-    public int getMeetingid() {
-        return meetingid;
+    public int getMeetingId() {
+        return meetingId;
     }
 
-    public void setMeetingid(int meetingid) {
-        this.meetingid = meetingid;
+    public void setMeetingId(int meetingid) {
+        this.meetingId = meetingid;
     }
 }

@@ -6,6 +6,8 @@ import com.echo.taask.helper.UserHelper;
 import com.echo.taask.model.Task;
 import com.echo.taask.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,13 +20,24 @@ public class UserController {
 
 
   @GetMapping("/getAllUsers")
-    public List<User> getUsers(){
-      return service.getAllUsers();
+    public ResponseEntity<List<User>> getUsers(){
+
+      try {
+          return new ResponseEntity<>(service.getAllUsers(),HttpStatus.OK);
+      }catch (Exception ex)
+      {
+          return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+      }
   }
 
   @PostMapping("saveUser")
-  public String saveUser(@RequestBody User user){
-      return service.saveUser(user);
+  public ResponseEntity<String> saveUser(@RequestBody User user){
+      try {
+          return new ResponseEntity<>(service.saveUser(user),HttpStatus.OK);
+      }catch (Exception ex)
+      {
+          return new ResponseEntity<>("Failed to Save User", HttpStatus.BAD_REQUEST);
+      }
   }
 
      @Autowired

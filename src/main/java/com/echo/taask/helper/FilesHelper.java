@@ -51,7 +51,7 @@ public class FilesHelper {
 
             loadFile.setFiletype( gridFSFile.getMetadata().get("_contentType").toString() );
 
-            loadFile.setFilesize( gridFSFile.getMetadata().get("fileSize").toString() );
+            loadFile.setFileSize( gridFSFile.getMetadata().get("fileSize").toString() );
 
             loadFile.setFile( IOUtils.toByteArray(operations.getResource(gridFSFile).getInputStream()) );
         }

@@ -8,7 +8,7 @@ public class Contact {
 
     private String id;
     private String name;
-    private String jobtitle;
+    private String jobTitle;
     private String emailaddress;
     private String location;
 
@@ -28,12 +28,12 @@ public class Contact {
         this.name = name;
     }
 
-    public String getJobtitle() {
-        return jobtitle;
+    public String getJobTitle() {
+        return jobTitle;
     }
 
-    public void setJobtitle(String jobtitle) {
-        this.jobtitle = jobtitle;
+    public void setJobTitle(String jobTitle) {
+        this.jobTitle = jobTitle;
     }
 
     public String getEmailaddress() {

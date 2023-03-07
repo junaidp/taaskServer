@@ -9,7 +9,7 @@ public class Files {
 
     @Id
     private String id;
-    private String filesize;
+    private String fileSize;
     private byte[] file;
     private String filename;
     private String filetype;
@@ -22,12 +22,12 @@ public class Files {
         this.id = id;
     }
 
-    public String getFilesize() {
-        return filesize;
+    public String getFileSize() {
+        return fileSize;
     }
 
-    public void setFilesize(String filesize) {
-        this.filesize = filesize;
+    public void setFileSize(String fileSize) {
+        this.fileSize = fileSize;
     }
 
     public byte[] getFile() {

@@ -3,6 +3,8 @@ package com.echo.taask.controller;
 
 import com.echo.taask.helper.FilesHelper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -14,17 +16,30 @@ import java.io.IOException;
 
 public class FilesController {
 
+
+    private FilesHelper filesHelper;
+
     @Autowired
-    FilesHelper filesHelper;
+    public FilesController(FilesHelper filesHelper){
+        this.filesHelper = filesHelper;
+    }
 
     @PostMapping("uploadfile")
-    public String uploadfile(@RequestParam MultipartFile file)
+    public ResponseEntity<String> uploadFile(@RequestParam MultipartFile file)
     {
-        return filesHelper.uploadFile(file);
+        try {
+            return new ResponseEntity<>(filesHelper.uploadFile(file), HttpStatus.OK);
+        }catch (Exception ex){
+            return new ResponseEntity<>("Failed to Upload File" , HttpStatus.BAD_REQUEST);
+        }
     }
 
     @GetMapping("downloadfile")
-    public String downloadfile( String fileid) throws IOException {
-        return filesHelper.downloadFile(fileid);
+    public ResponseEntity<String> downloadFile( String fileid) throws IOException {
+        try {
+            return new ResponseEntity<>(filesHelper.downloadFile(fileid),HttpStatus.OK);
+        }catch (Exception ex){
+            return new ResponseEntity<>("failed to Download File " , HttpStatus.BAD_REQUEST);
+        }
     }
 }

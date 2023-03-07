@@ -3,6 +3,8 @@ package com.echo.taask.controller;
 import com.echo.taask.helper.MeetingHelper;
 import com.echo.taask.model.Meeting;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,17 +15,30 @@ import java.util.List;
 @CrossOrigin(origins = "*", maxAge = 3600)
 
 public class MeetingController {
-    @Autowired
-    MeetingHelper meetinghelper;
 
-    @PostMapping("savemeeting")
-    public String savemeeting(@RequestParam Meeting meeting){
-        return meetinghelper.savemeeting(meeting);
+    private MeetingHelper meetingHelper;
+
+    @Autowired
+    public MeetingController(MeetingHelper meetingHelper){
+        this.meetingHelper = meetingHelper;
     }
 
-    @GetMapping("getallmeetings")
-    public List<Meeting> getallmeetings()
+    @PostMapping("saveMeeting")
+    public ResponseEntity<String> saveMeeting(@RequestParam Meeting meeting){
+        try {
+            return new ResponseEntity<>(meetingHelper.saveMeeting(meeting),HttpStatus.OK);
+        }catch (Exception ex){
+            return new ResponseEntity<>("Failed to Save Meeting" , HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("getAllMeetings")
+    public ResponseEntity<List<Meeting>> getAllMeetings()
     {
-        return meetinghelper.getAllMeeting();
+        try {
+            return new ResponseEntity<>(meetingHelper.getAllMeeting(),HttpStatus.OK);
+        }catch (Exception ex){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 }
