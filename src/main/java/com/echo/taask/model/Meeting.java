@@ -4,14 +4,34 @@ package com.echo.taask.model;
 import nonapi.io.github.classgraph.json.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.Date;
+
 @Document
 public class Meeting {
     @Id
     private String id;
-
     private String meetingName;
     private int meetingId;
 
+    private String dueDate;
+
+    public String getDueDate() {
+        return dueDate;
+    }
+
+    public void setDueDate(String dueDate) {
+        this.dueDate = dueDate;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    private String time;
     public String getId() {
         return id;
     }
@@ -20,7 +40,7 @@ public class Meeting {
         this.id = id;
     }
 
-    public String getMeetingname() {
+    public String getMeetingName() {
         return meetingName;
     }
 

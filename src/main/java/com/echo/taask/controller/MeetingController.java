@@ -23,16 +23,16 @@ public class MeetingController {
         this.meetingHelper = meetingHelper;
     }
 
-    @PostMapping("saveMeeting")
-    public ResponseEntity<String> saveMeeting(@RequestParam Meeting meeting){
+    @PostMapping("/saveMeeting")
+    public String saveMeeting(@RequestParam Meeting meeting){
         try {
-            return new ResponseEntity<>(meetingHelper.saveMeeting(meeting),HttpStatus.OK);
+            return meetingHelper.saveMeeting(meeting);
         }catch (Exception ex){
-            return new ResponseEntity<>("Failed to Save Meeting" , HttpStatus.BAD_REQUEST);
+            return "Failed to Save Meeting";
         }
     }
 
-    @GetMapping("getAllMeetings")
+    @GetMapping("/getAllMeetings")
     public ResponseEntity<List<Meeting>> getAllMeetings()
     {
         try {
