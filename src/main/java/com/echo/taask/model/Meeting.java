@@ -11,15 +11,14 @@ public class Meeting {
     @Id
     private String id;
     private String meetingName;
-    private int meetingId;
+    private Date dueDate;
+    private String time;
 
-    private String dueDate;
-
-    public String getDueDate() {
+    public Date getDueDate() {
         return dueDate;
     }
 
-    public void setDueDate(String dueDate) {
+    public void setDueDate(Date dueDate) {
         this.dueDate = dueDate;
     }
 
@@ -31,7 +30,7 @@ public class Meeting {
         this.time = time;
     }
 
-    private String time;
+
     public String getId() {
         return id;
     }
@@ -46,13 +45,5 @@ public class Meeting {
 
     public void setMeetingName(String meetingname) {
         this.meetingName = meetingname;
-    }
-
-    public int getMeetingId() {
-        return meetingId;
-    }
-
-    public void setMeetingId(int meetingid) {
-        this.meetingId = meetingid;
     }
 }

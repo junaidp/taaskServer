@@ -1,5 +1,6 @@
 package com.echo.taask.helper;
 
+import com.echo.taask.model.Customer;
 import com.echo.taask.model.Task;
 import com.echo.taask.repository.TaskRepository;
 import com.google.gson.Gson;
@@ -43,11 +44,11 @@ public class TaskHelper {
         }
     }
 
-    public String getTasks(String userId){
+    public String getTasks(String Customerid){
         try{
-            System.out.println("Getting tasks for : " + userId);
+            System.out.println("Getting tasks for : " + Customerid);
             Query query = new Query();
-            query.addCriteria(Criteria.where("userid").is(userId));
+            query.addCriteria(Criteria.where("userid").is(Customerid));
             List<Task> tasks = mongoOperations.find(query, Task.class);
             for(Task task:tasks)
             {

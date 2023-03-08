@@ -9,10 +9,19 @@ public class Files {
 
     @Id
     private String id;
-    private String fileSize;
+    private long fileSize;
     private byte[] file;
     private String filename;
     private String filetype;
+    private String fileId;
+
+    public String getFileId() {
+        return fileId;
+    }
+
+    public void setFileId(String fileId) {
+        this.fileId = fileId;
+    }
 
     public String getId() {
         return id;
@@ -22,11 +31,11 @@ public class Files {
         this.id = id;
     }
 
-    public String getFileSize() {
+    public long getFileSize() {
         return fileSize;
     }
 
-    public void setFileSize(String fileSize) {
+    public void setFileSize(long fileSize) {
         this.fileSize = fileSize;
     }
 

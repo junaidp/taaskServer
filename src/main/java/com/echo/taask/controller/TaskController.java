@@ -21,7 +21,7 @@ public class TaskController {
         this.taskHelper = taskHelper;
     }
 
-    @PostMapping("saveTask")
+    @PostMapping("/saveTask")
     public ResponseEntity<String> saveTask(@RequestBody Task task)
     {
         try {

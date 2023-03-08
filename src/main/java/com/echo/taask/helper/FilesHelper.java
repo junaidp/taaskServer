@@ -33,14 +33,13 @@ public class FilesHelper {
         try{
             DBObject metadata = new BasicDBObject();
             Object fileID = template.store(file.getInputStream(), file.getOriginalFilename(), file.getContentType(), metadata);
-//            filesRepository.save(file);
-            return "file uploaded Successfully " + fileID.toString();
+            return "file uploaded Successfully " + file.getContentType() + " " +  fileID.toString();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public String downloadFile(String id) throws IOException {
+    public Files downloadFile(String id) throws IOException {
 
         GridFSFile gridFSFile = template.findOne( new Query(Criteria.where("_id").is(id)) );
 
@@ -49,15 +48,15 @@ public class FilesHelper {
         if (gridFSFile != null && gridFSFile.getMetadata() != null) {
             loadFile.setFilename( gridFSFile.getFilename() );
 
-            loadFile.setFiletype( gridFSFile.getMetadata().get("_contentType").toString() );
+            loadFile.setFiletype( "Application/pdf" );
 
-            loadFile.setFileSize( gridFSFile.getMetadata().get("fileSize").toString() );
+//            loadFile.setFileSize( gridFSFile.getMetadata().get("fileSize").toString() );
 
             loadFile.setFile( IOUtils.toByteArray(operations.getResource(gridFSFile).getInputStream()) );
         }
 
 //        return loadFile;
-        return "File downloaded successfully" + loadFile.getFilename();
+        return loadFile;
     }
 
 }

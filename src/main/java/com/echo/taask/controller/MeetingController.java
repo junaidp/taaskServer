@@ -23,8 +23,8 @@ public class MeetingController {
         this.meetingHelper = meetingHelper;
     }
 
-    @PostMapping("/saveMeeting")
-    public String saveMeeting(@RequestParam Meeting meeting){
+    @PostMapping("/savemeeting")
+    public String saveMeeting(@RequestBody Meeting meeting){
         try {
             return meetingHelper.saveMeeting(meeting);
         }catch (Exception ex){
