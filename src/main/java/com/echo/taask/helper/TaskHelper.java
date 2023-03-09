@@ -9,6 +9,8 @@ import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.stereotype.Component;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.web.multipart.MultipartFile;
+
 import java.util.List;
 
 @Component
@@ -19,6 +21,8 @@ public class TaskHelper {
 
     @Autowired
     MongoOperations mongoOperations;
+    @Autowired
+    FilesHelper filesHelper;
 
 
     Gson gson = new Gson();
@@ -33,9 +37,9 @@ public class TaskHelper {
 
 
 
-    public String saveTasks(Task task){
+    public String saveTasks(Task task, MultipartFile file){
         try {
-            //String password = user.getPassword();
+            task.setFileId(filesHelper.uploadFile(file));
             taskRepository.save(task);
             return "Task saved";
         }catch (Exception e)

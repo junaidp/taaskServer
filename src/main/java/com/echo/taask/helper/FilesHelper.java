@@ -33,7 +33,7 @@ public class FilesHelper {
         try{
             DBObject metadata = new BasicDBObject();
             Object fileID = template.store(file.getInputStream(), file.getOriginalFilename(), file.getContentType(), metadata);
-            return "file uploaded Successfully " + file.getContentType() + " " +  fileID.toString();
+            return fileID.toString();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

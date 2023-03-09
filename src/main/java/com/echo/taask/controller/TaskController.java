@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -22,10 +23,10 @@ public class TaskController {
     }
 
     @PostMapping("/saveTask")
-    public ResponseEntity<String> saveTask(@RequestBody Task task)
+    public ResponseEntity<String> saveTask(@RequestParam("file") MultipartFile file, @RequestPart("task") Task task)
     {
         try {
-            return new ResponseEntity<>(taskHelper.saveTasks(task),HttpStatus.OK);
+            return new ResponseEntity<>(taskHelper.saveTasks(task,file),HttpStatus.OK);
         }catch (Exception ex){
             return new ResponseEntity<>("Failed to Save Task", HttpStatus.BAD_REQUEST);
         }

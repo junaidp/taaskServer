@@ -8,12 +8,12 @@ import org.springframework.web.multipart.MultipartFile;
 public class Resource {
     @Id
     private String Id;
-    private MultipartFile attachment;
+    private String fileId;
     private String link;
     private String userId;
 
-    public MultipartFile getAttachment() {
-        return attachment;
+    public String getFileId() {
+        return fileId;
     }
 
 
@@ -33,8 +33,8 @@ public class Resource {
         this.userId = userId;
     }
 
-    public void setAttachment(MultipartFile attachment) {
-        this.attachment = attachment;
+    public void setFileId(String fileId) {
+        this.fileId = fileId;
     }
 
     public String getLink() {

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -24,10 +25,10 @@ public class CustomerController {
         this.customerHelper =  customerHelper;
     }
     @PostMapping("saveCustomer")
-    public ResponseEntity<String> savecustomer(@RequestBody Customer customer)
+    public ResponseEntity<String> savecustomer(@RequestParam("file") MultipartFile file, @RequestPart("customer") Customer customer)
     {
         try {
-            return new ResponseEntity<>(customerHelper.saveCustomer(customer), HttpStatus.OK);
+            return new ResponseEntity<>(customerHelper.saveCustomer(customer,file), HttpStatus.OK);
         }catch(Exception ex)
         {
             return new ResponseEntity("Failed to save customer", HttpStatus.BAD_REQUEST);

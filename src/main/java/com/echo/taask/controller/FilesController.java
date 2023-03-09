@@ -23,13 +23,13 @@ public class FilesController {
     @Autowired
     FilesHelper filesHelper;
 
-    @PostMapping("uploadfile")
+    @PostMapping("uploadFile")
     public ResponseEntity<?> upload(@RequestParam("file") MultipartFile file) throws IOException {
         return new ResponseEntity<>(filesHelper.uploadFile(file), HttpStatus.OK);
     }
 
-    @GetMapping("downloadfile")
-    public ResponseEntity<ByteArrayResource> downloadfile(@RequestParam String fileid) throws IOException {
+    @GetMapping("downloadFile")
+    public ResponseEntity<ByteArrayResource> downloadFile(@RequestParam String fileid) throws IOException {
         Files loadFile = filesHelper.downloadFile(fileid);
 
         return ResponseEntity.ok()
