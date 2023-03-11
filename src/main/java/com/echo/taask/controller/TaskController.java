@@ -1,6 +1,7 @@
 package com.echo.taask.controller;
 
 
+import com.echo.taask.dto.TaskDTO;
 import com.echo.taask.helper.TaskHelper;
 import com.echo.taask.model.Task;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +34,7 @@ public class TaskController {
     }
 
     @GetMapping("getAllTasks")
-    public ResponseEntity<List<Task>> getAllTasks()
+    public ResponseEntity<List<TaskDTO>> getAllTasks()
     {
         try {
             return new ResponseEntity<>(taskHelper.getAllTasks(),HttpStatus.OK);

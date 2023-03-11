@@ -1,6 +1,8 @@
 package com.echo.taask.model;
 
-public class SubTask {
+import java.io.Serializable;
+
+public class SubTask implements Serializable {
 
     private String name;
 

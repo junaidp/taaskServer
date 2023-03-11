@@ -1,7 +1,9 @@
 package com.echo.taask.helper;
 
+import com.echo.taask.dto.TaskDTO;
 import com.echo.taask.model.Customer;
 import com.echo.taask.model.Task;
+import com.echo.taask.repository.CustomerRepository;
 import com.echo.taask.repository.TaskRepository;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -18,23 +23,43 @@ public class TaskHelper {
 
     @Autowired
     TaskRepository taskRepository;
-
+    @Autowired
+    CustomerRepository customerRepository;
     @Autowired
     MongoOperations mongoOperations;
     @Autowired
     FilesHelper filesHelper;
-
-
     Gson gson = new Gson();
-    public List<Task> getAllTasks(){
+
+    private static final String DATE_FORMAT = "dd/MM/yyyy HH:mm a";
+
+    public List<TaskDTO> getAllTasks(){
         try{
-            return taskRepository.findAll();
+            List<Task> tasksModel = taskRepository.findAll();
+            return toDto(tasksModel);
         }catch (Exception e)
         {
             throw e;
         }
     }
 
+    private List<TaskDTO> toDto(List<Task> tasksModel) {
+        List<TaskDTO> taskDTOS = new ArrayList<TaskDTO>();
+        for(Task task: tasksModel){
+            TaskDTO dto = new TaskDTO();
+            Customer customer = customerRepository.findById(task.getCustomerId()).get();
+            dto.setCustomer(customer);
+            dto.setTaskName(task.getTaskName());
+            dto.setSubTask(task.getSubTask());
+            dto.setFileId(task.getFileId());
+            DateFormat formatter = new SimpleDateFormat(DATE_FORMAT);
+            String formattedDate = formatter.format(task.getDueDate());
+            dto.setDueDate(formattedDate.substring(0,10));
+            dto.setTime(formattedDate.substring(11));
+            taskDTOS.add(dto);
+        }
+        return taskDTOS;
+    }
 
 
     public String saveTasks(Task task, MultipartFile file){
@@ -48,11 +73,11 @@ public class TaskHelper {
         }
     }
 
-    public String getTasks(String Customerid){
+    public String getTasks(String customerId){
         try{
-            System.out.println("Getting tasks for : " + Customerid);
+            System.out.println("Getting tasks for : " + customerId);
             Query query = new Query();
-            query.addCriteria(Criteria.where("userid").is(Customerid));
+            query.addCriteria(Criteria.where("userid").is(customerId));
             List<Task> tasks = mongoOperations.find(query, Task.class);
             for(Task task:tasks)
             {
