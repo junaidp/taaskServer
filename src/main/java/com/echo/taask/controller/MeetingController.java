@@ -1,5 +1,6 @@
 package com.echo.taask.controller;
 
+import com.echo.taask.dto.MeetingDTO;
 import com.echo.taask.helper.MeetingHelper;
 import com.echo.taask.model.Meeting;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,7 @@ public class MeetingController {
         this.meetingHelper = meetingHelper;
     }
 
-    @PostMapping("/savemeeting")
+    @PostMapping("/saveMeeting")
     public String saveMeeting(@RequestBody Meeting meeting){
         try {
             return meetingHelper.saveMeeting(meeting);
@@ -33,7 +34,7 @@ public class MeetingController {
     }
 
     @GetMapping("/getAllMeetings")
-    public ResponseEntity<List<Meeting>> getAllMeetings()
+    public ResponseEntity<List<MeetingDTO>> getAllMeetings()
     {
         try {
             return new ResponseEntity<>(meetingHelper.getAllMeeting(),HttpStatus.OK);

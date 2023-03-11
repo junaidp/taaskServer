@@ -12,7 +12,6 @@ public class Meeting {
     private String id;
     private String meetingName;
     private Date dueDate;
-    private String time;
 
     public Date getDueDate() {
         return dueDate;
@@ -21,15 +20,6 @@ public class Meeting {
     public void setDueDate(Date dueDate) {
         this.dueDate = dueDate;
     }
-
-    public String getTime() {
-        return time;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
-    }
-
 
     public String getId() {
         return id;
