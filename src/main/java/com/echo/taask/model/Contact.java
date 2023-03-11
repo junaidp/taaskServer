@@ -1,15 +1,11 @@
 package com.echo.taask.model;
 
-import nonapi.io.github.classgraph.json.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-
-
 public class Contact {
 
     private String id;
     private String name;
     private String jobTitle;
-    private String emailaddress;
+    private String emailAddress;
     private String location;
 
     public String getId() {
@@ -36,12 +32,12 @@ public class Contact {
         this.jobTitle = jobTitle;
     }
 
-    public String getEmailaddress() {
-        return emailaddress;
+    public String getEmailAddress() {
+        return emailAddress;
     }
 
-    public void setEmailaddress(String emailaddress) {
-        this.emailaddress = emailaddress;
+    public void setEmailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
     }
 
     public String getLocation() {
