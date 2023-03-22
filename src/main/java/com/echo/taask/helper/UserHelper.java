@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -49,6 +51,23 @@ public class UserHelper {
             userRepository.deleteAll();
             return "All users Deleted";
 
+        }
+        catch (Exception e)
+        {
+            throw e;
+        }
+    }
+
+    public ResponseEntity<User> login(String userName , String password){
+        try{
+            Query query = new Query();
+            query.addCriteria(Criteria.where("name").is(userName));
+            query.addCriteria(Criteria.where("password").is(password));
+            User user = mongoOperations.findOne(query,User.class);
+            if(user!= null)
+                return new ResponseEntity<>(user ,HttpStatus.OK);
+            else
+                return new ResponseEntity<>(HttpStatus.valueOf("username / password invalid"));
         }
         catch (Exception e)
         {

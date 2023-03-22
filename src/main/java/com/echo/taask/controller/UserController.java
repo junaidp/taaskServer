@@ -30,6 +30,17 @@ public class UserController {
       }
   }
 
+    @GetMapping("/login")
+    public ResponseEntity<User> login(String userName , String password){
+
+        try {
+            return service.login(userName , password);
+        }catch (Exception ex)
+        {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
   @PostMapping("saveUser")
   public ResponseEntity<String> saveUser(@RequestBody User user){
       try {
