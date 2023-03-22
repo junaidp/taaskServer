@@ -61,7 +61,7 @@ public class UserHelper {
     public ResponseEntity<User> login(String userName , String password){
         try{
             Query query = new Query();
-            query.addCriteria(Criteria.where("name").is(userName));
+            query.addCriteria(Criteria.where("email").is(userName));
             query.addCriteria(Criteria.where("password").is(password));
             User user = mongoOperations.findOne(query,User.class);
             if(user!= null)
