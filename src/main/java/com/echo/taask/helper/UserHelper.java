@@ -67,7 +67,7 @@ public class UserHelper {
             if(user!= null)
                 return new ResponseEntity<>(user ,HttpStatus.OK);
             else
-                return new ResponseEntity<>(HttpStatus.valueOf("username / password invalid"));
+                return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
         catch (Exception e)
         {
