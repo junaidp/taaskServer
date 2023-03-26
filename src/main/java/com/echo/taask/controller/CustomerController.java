@@ -45,4 +45,15 @@ public class CustomerController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
+
+    @GetMapping("getCustomers")
+    public ResponseEntity<String> getCustomers(@RequestParam String userid)
+    {
+        try {
+            return new ResponseEntity<>(customerHelper.getCustomers(userid),HttpStatus.OK);
+        }catch (Exception ex)
+        {
+            return new ResponseEntity<>("Failed to Get Task",HttpStatus.BAD_REQUEST);
+        }
+    }
 }

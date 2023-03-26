@@ -43,7 +43,7 @@ public class TaskController {
         }
     }
 
-    @GetMapping("getTask")
+    @GetMapping("getTasks")
     public ResponseEntity<String> getTask(@RequestParam String userid)
     {
         try {

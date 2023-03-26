@@ -27,7 +27,6 @@ public class LoginHelper {
             Query query = new Query();
             query.addCriteria(Criteria.where("email").is(email).and("password").is(password));
             //	BasicQuery query1 = new BasicQuery("{ name : '"+name+"'} , { password: '"+password+"'}");
-            System.out.println("ff");
             User user = mongoOperation.findOne(query, User.class);
             System.out.println(user);
             String json = gson.toJson(user);
