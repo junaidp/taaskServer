@@ -25,7 +25,7 @@ public class CustomerController {
         this.customerHelper =  customerHelper;
     }
     @PostMapping("saveCustomer")
-    public ResponseEntity<String> savecustomer(@RequestParam("file") MultipartFile file, @RequestPart("customer") Customer customer)
+    public ResponseEntity<String> savecustomer(@RequestParam("file") MultipartFile file, @RequestBody Customer customer)
     {
         try {
             return new ResponseEntity<>(customerHelper.saveCustomer(customer,file), HttpStatus.OK);
