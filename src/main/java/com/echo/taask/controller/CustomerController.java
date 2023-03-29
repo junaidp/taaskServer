@@ -35,6 +35,28 @@ public class CustomerController {
         }
     }
 
+    @PostMapping("saveCustomerWithoutFile")
+    public ResponseEntity<String> saveCustomerWithoutFile( @RequestPart("customer") Customer customer)
+    {
+        try {
+            return new ResponseEntity<>(customerHelper.saveCustomer(customer,null), HttpStatus.OK);
+        }catch(Exception ex)
+        {
+            return new ResponseEntity("Failed to save customer", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping("saveOnlyFile")
+    public ResponseEntity<String> saveOnlyFile( @RequestParam("file") MultipartFile file)
+    {
+        try {
+            return new ResponseEntity<>(customerHelper.saveCustomer(null,file), HttpStatus.OK);
+
+        }catch(Exception ex)
+        {
+            return new ResponseEntity("Failed to save customer", HttpStatus.BAD_REQUEST);
+        }
+    }
     @GetMapping("/getAllCustomers")
     public ResponseEntity<List<Customer>> getAllCustomers()
     {

@@ -30,8 +30,9 @@ public class CustomerHelper {
 
     public String saveCustomer(Customer customer, MultipartFile file){
         try {
-            customer.setFileId(filesHelper.uploadFile(file));
-            customerRepository.save(customer);
+            if(file!=null)customer.setFileId(filesHelper.uploadFile(file));
+            if(customer != null)
+                customerRepository.save(customer);
             return "user saved";
         }catch (Exception e)
         {
