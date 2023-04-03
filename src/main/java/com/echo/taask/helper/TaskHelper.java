@@ -77,7 +77,7 @@ public class TaskHelper {
         try{
             System.out.println("Getting tasks for : " + customerId);
             Query query = new Query();
-            query.addCriteria(Criteria.where("userid").is(customerId));
+            query.addCriteria(Criteria.where("customerId").is(customerId));
             List<Task> tasks = mongoOperations.find(query, Task.class);
             for(Task task:tasks)
             {
