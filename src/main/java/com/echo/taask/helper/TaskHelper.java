@@ -53,9 +53,11 @@ public class TaskHelper {
             dto.setSubTask(task.getSubTask());
             dto.setFileId(task.getFileId());
             DateFormat formatter = new SimpleDateFormat(DATE_FORMAT);
-            String formattedDate = formatter.format(task.getDueDate());
-            dto.setDueDate(formattedDate.substring(0,10));
-            dto.setTime(formattedDate.substring(11));
+            if(task.getDueDate() != null) {
+                String formattedDate = formatter.format(task.getDueDate());
+                dto.setDueDate(formattedDate.substring(0, 10));
+                dto.setTime(formattedDate.substring(11));
+            }
             taskDTOS.add(dto);
         }
         return taskDTOS;
