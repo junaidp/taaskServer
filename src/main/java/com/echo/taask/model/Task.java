@@ -20,6 +20,8 @@ public class Task {
 
     private String fileId;
 
+    private Date dueDate;
+
     public String getFileId() {
         return fileId;
     }
@@ -52,7 +54,7 @@ public class Task {
         this.dueDate = dueDate;
     }
 
-    private Date dueDate;
+
 
     public String getId() {
         return id;

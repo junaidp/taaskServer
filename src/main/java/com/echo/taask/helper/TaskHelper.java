@@ -83,7 +83,8 @@ public class TaskHelper {
             {
                 System.out.println("Tasks found : " + task.getTaskName());
             }
-            String json = gson.toJson(tasks);
+            List<TaskDTO> taskDtos = toDto(tasks);
+            String json = gson.toJson(taskDtos);
             return json;
         }catch (Exception e)
         {
