@@ -17,6 +17,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class TaskHelper {
@@ -47,8 +48,13 @@ public class TaskHelper {
         List<TaskDTO> taskDTOS = new ArrayList<TaskDTO>();
         for(Task task: tasksModel){
             TaskDTO dto = new TaskDTO();
-            Customer customer = customerRepository.findById(task.getCustomerId()).get();
-            dto.setCustomer(customer);
+            if(task.getCustomerId() != null) {
+                Optional<Customer> customerOptional = customerRepository.findById(task.getCustomerId());
+                if(customerOptional.isPresent()) {
+                    Customer customer = customerOptional.get();
+                    dto.setCustomer(customer);
+                }
+            }
             dto.setTaskName(task.getTaskName());
             dto.setSubTask(task.getSubTask());
             dto.setFileId(task.getFileId());

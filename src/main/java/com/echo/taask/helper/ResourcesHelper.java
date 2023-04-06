@@ -28,7 +28,7 @@ public class ResourcesHelper {
         try {
             resource.setFileId(filesHelper.uploadFile(file));
             resourcesRepository.save(resource);
-            return "resources saved successfull";
+            return "resources saved successfully";
         }catch (Exception ex)
         {
             return "Error saving resources " + ex;

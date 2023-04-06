@@ -44,10 +44,10 @@ public class TaskController {
     }
 
     @GetMapping("getTasks")
-    public ResponseEntity<String> getTask(@RequestParam String userid)
+    public ResponseEntity<String> getCustomerTasks(@RequestParam String customerId)
     {
         try {
-            return new ResponseEntity<>(taskHelper.getTasks(userid),HttpStatus.OK);
+            return new ResponseEntity<>(taskHelper.getTasks(customerId),HttpStatus.OK);
         }catch (Exception ex)
         {
             return new ResponseEntity<>("Failed to Get Task",HttpStatus.BAD_REQUEST);
