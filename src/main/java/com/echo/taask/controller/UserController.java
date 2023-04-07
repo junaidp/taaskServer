@@ -30,6 +30,17 @@ public class UserController {
       }
   }
 
+    @GetMapping("/cleanDb")
+    public ResponseEntity<String> cleanDb(){
+
+        try {
+            return new ResponseEntity<>(service.cleanDb(),HttpStatus.OK);
+        }catch (Exception ex)
+        {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
     @GetMapping("/login")
     public ResponseEntity<User> login(String userName , String password){
 

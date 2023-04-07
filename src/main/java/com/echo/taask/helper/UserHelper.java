@@ -2,7 +2,7 @@ package com.echo.taask.helper;
 
 import ch.qos.logback.core.encoder.EchoEncoder;
 import com.echo.taask.model.User;
-import com.echo.taask.repository.UserRepository;
+import com.echo.taask.repository.*;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoOperations;
@@ -20,6 +20,24 @@ public class UserHelper {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    CustomerRepository customerRepository;
+
+    @Autowired
+    ContactsRepository contactsRepository;
+
+    @Autowired
+    FilesRepository filesRepository;
+
+    @Autowired
+    MeetingRepository meetingRepository;
+
+    @Autowired
+    ResourcesRepository resourcesRepository;
+
+    @Autowired
+    TaskRepository taskRepository;
 
     @Autowired
     MongoOperations mongoOperations;
@@ -92,6 +110,20 @@ public class UserHelper {
         }catch (Exception e)
         {
             throw e;
+        }
+    }
+
+    public String cleanDb(){
+        try {
+            customerRepository.deleteAll();
+            contactsRepository.deleteAll();
+            resourcesRepository.deleteAll();
+            taskRepository.deleteAll();
+            meetingRepository.deleteAll();
+            return "Db Cleaned";
+        }catch(Exception ex)
+        {
+            return "Error in cleaning db: "+ ex.getMessage();
         }
     }
 }
