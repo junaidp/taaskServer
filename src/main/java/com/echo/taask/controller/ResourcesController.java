@@ -2,7 +2,9 @@ package com.echo.taask.controller;
 
 
 import com.echo.taask.helper.ResourcesHelper;
+import com.echo.taask.model.Link;
 import com.echo.taask.model.Resource;
+import com.echo.taask.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,6 +40,25 @@ public class ResourcesController {
     public List<Resource> getResources(@RequestParam String userId){
 
         return resourcesHelper.getResources(userId);
+    }
+
+
+    @PostMapping("/saveLink")
+    public ResponseEntity<String> saveLink (@RequestBody Link link)
+    {
+
+        try {
+            return new ResponseEntity<>(resourcesHelper.saveLink(link), HttpStatus.OK);
+        }catch (Exception e)
+        {
+            throw e;
+        }
+    }
+
+    @GetMapping("/getLinks")
+    public List<Link> getLinks(@RequestParam String userId){
+
+        return resourcesHelper.getLinks(userId);
     }
 
 }
