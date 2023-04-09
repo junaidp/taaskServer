@@ -3,6 +3,8 @@ package com.echo.taask.model;
 
 import nonapi.io.github.classgraph.json.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -10,9 +12,9 @@ import java.util.Date;
 public class Task {
     @Id
     private String id;
-
+    @NotNull(message = "Task Name Should Not Be Null")
     private String taskName;
-
+    @Pattern(regexp = "^[0-9a-fA-F]{24}$", message = "Randomly Generated Hexadecimal String Of Registered Customer")
     private String customerId;
 
     private ArrayList<SubTask> subTask;

@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RequestMapping("api/task")
@@ -23,8 +24,9 @@ public class TaskController {
         this.taskHelper = taskHelper;
     }
 
+    //TODO SAVE
     @PostMapping("/saveTask")
-    public ResponseEntity<String> saveTask(@RequestParam("file") MultipartFile file, @RequestPart("task") Task task)
+    public ResponseEntity<String> saveTask(@RequestParam("file") MultipartFile file, @RequestPart("task") @Valid Task task)
     {
         try {
             return new ResponseEntity<>(taskHelper.saveTasks(task,file),HttpStatus.OK);
