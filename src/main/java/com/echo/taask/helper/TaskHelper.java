@@ -1,5 +1,6 @@
 package com.echo.taask.helper;
-
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import com.echo.taask.dto.TaskDTO;
 import com.echo.taask.model.Customer;
 import com.echo.taask.model.Task;
@@ -31,7 +32,7 @@ public class TaskHelper {
     @Autowired
     FilesHelper filesHelper;
     Gson gson = new Gson();
-
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm a");
     private static final String DATE_FORMAT = "dd/MM/yyyy HH:mm a";
 
     public List<TaskDTO> getAllTasks(){
@@ -73,6 +74,8 @@ public class TaskHelper {
     public String saveTasks(Task task, MultipartFile file){
         try {
             task.setFileId(filesHelper.uploadFile(file));
+            LocalTime time = LocalTime.now();
+            task.setFormattedTime(time.format(formatter));
             taskRepository.save(task);
             return "Task saved";
         }catch (Exception e)

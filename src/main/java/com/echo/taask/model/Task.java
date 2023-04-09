@@ -3,7 +3,6 @@ package com.echo.taask.model;
 
 import nonapi.io.github.classgraph.json.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -21,6 +20,8 @@ public class Task {
     private String fileId;
 
     private Date dueDate;
+
+    private String formattedTime;
 
     public String getFileId() {
         return fileId;
@@ -54,8 +55,6 @@ public class Task {
         this.dueDate = dueDate;
     }
 
-
-
     public String getId() {
         return id;
     }
@@ -70,5 +69,13 @@ public class Task {
 
     public void setTaskName(String taskName) {
         this.taskName = taskName;
+    }
+
+    public String getFormattedTime() {
+        return formattedTime;
+    }
+
+    public void setFormattedTime(String formattedTime) {
+        this.formattedTime = formattedTime;
     }
 }
