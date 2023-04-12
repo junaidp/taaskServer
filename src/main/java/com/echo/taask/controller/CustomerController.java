@@ -25,10 +25,10 @@ public class CustomerController {
         this.customerHelper =  customerHelper;
     }
     @PostMapping("saveCustomer")
-    public ResponseEntity<String> savecustomer(@RequestParam("file") MultipartFile file, @RequestPart("customer") Customer customer)
+    public ResponseEntity<String> savecustomer(@RequestParam("file") MultipartFile file,@RequestParam("image") MultipartFile image ,@RequestPart("customer") Customer customer)
     {
         try {
-            return new ResponseEntity<>(customerHelper.saveCustomer(customer,file), HttpStatus.OK);
+            return new ResponseEntity<>(customerHelper.saveCustomer(customer,file,image), HttpStatus.OK);
         }catch(Exception ex)
         {
             return new ResponseEntity("Failed to save customer", HttpStatus.BAD_REQUEST);
@@ -39,7 +39,7 @@ public class CustomerController {
     public ResponseEntity<String> saveCustomerWithoutFile( @RequestPart("customer") Customer customer)
     {
         try {
-            return new ResponseEntity<>(customerHelper.saveCustomer(customer,null), HttpStatus.OK);
+            return new ResponseEntity<>(customerHelper.saveCustomer(customer,null,null), HttpStatus.OK);
         }catch(Exception ex)
         {
             return new ResponseEntity("Failed to save customer", HttpStatus.BAD_REQUEST);
@@ -50,7 +50,7 @@ public class CustomerController {
     public ResponseEntity<String> saveOnlyFile( @RequestParam("file") MultipartFile file)
     {
         try {
-            return new ResponseEntity<>(customerHelper.saveCustomer(null,file), HttpStatus.OK);
+            return new ResponseEntity<>(customerHelper.saveCustomer(null,file,null), HttpStatus.OK);
 
         }catch(Exception ex)
         {

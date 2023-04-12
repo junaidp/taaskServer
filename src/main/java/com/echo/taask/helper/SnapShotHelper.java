@@ -17,6 +17,7 @@ public class SnapShotHelper {
         taskSnapShotDTO.setActiveTasks(4);
         taskSnapShotDTO.setCompletedTasks(2);
         taskSnapShotDTO.setRecievedTasks(7);
+
         CustomerSnapShotDTO customerSnapShotDTO;
         customerSnapShotDTO = new CustomerSnapShotDTO();
         customerSnapShotDTO.setContract(5);
@@ -25,13 +26,17 @@ public class SnapShotHelper {
         customerSnapShotDTO.setRenewal(9);
         customerSnapShotDTO.setOnboarding(3);
         customerSnapShotDTO.setTier1(9);
+
         ProjectSnapShotDTO projectSnapShotDTO = new ProjectSnapShotDTO();
         projectSnapShotDTO.setTotalProjects(20);
         projectSnapShotDTO.setCompletedProjects(12);
+
         snapShotDTO = new SnapShotDTO();
+
         snapShotDTO.setTaskSnapShotDTO(taskSnapShotDTO);
         snapShotDTO.setCustomerSnapShotDTO(customerSnapShotDTO);
         snapShotDTO.setProjectSnapShotDTO(projectSnapShotDTO);
+
         return snapShotDTO;
     }
 }

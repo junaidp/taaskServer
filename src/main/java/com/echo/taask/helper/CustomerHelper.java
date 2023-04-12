@@ -28,9 +28,10 @@ public class CustomerHelper {
     MongoOperations mongoOperations;
     Gson gson = new Gson();
 
-    public String saveCustomer(Customer customer, MultipartFile file){
+    public String saveCustomer(Customer customer, MultipartFile file, MultipartFile image){
         try {
             if(file!=null)customer.setFileId(filesHelper.uploadFile(file));
+            if(image!=null) customer.setImageId(filesHelper.uploadFile(image));
             if(customer != null)
                 customerRepository.save(customer);
             return "user saved";

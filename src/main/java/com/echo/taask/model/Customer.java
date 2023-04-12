@@ -11,7 +11,6 @@ public class Customer {
 
     @Id
     private String id;
-
     private String category;
     private String name;
     private String location;
@@ -20,8 +19,8 @@ public class Customer {
     private String customerSince;
     private String customerNotes;
     private List<Contact> contacts;
-
     private String fileId;
+    private String imageId;
 
     public String getFileId() {
         return fileId;
@@ -101,5 +100,13 @@ public class Customer {
 
     public void setCustomerNotes(String customerNotes) {
         this.customerNotes = customerNotes;
+    }
+
+    public String getImageId() {
+        return imageId;
+    }
+
+    public void setImageId(String imageId) {
+        this.imageId = imageId;
     }
 }

@@ -1,4 +1,4 @@
-package com.echo.taask;
+package com.echo.taask.ErrorAdvice;
 
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import org.springframework.http.HttpStatus;
