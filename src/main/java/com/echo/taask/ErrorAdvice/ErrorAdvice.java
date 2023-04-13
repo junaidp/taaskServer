@@ -6,6 +6,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.multipart.support.MissingServletRequestPartException;
 
 import java.util.HashMap;
@@ -40,6 +41,13 @@ public class ErrorAdvice {
         return errorMessage;
     }
 
-
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(MaxUploadSizeExceededException.class)
+    public Map<String, String> FileSizeLimitExceededExceptionExceptionHandler(MaxUploadSizeExceededException ex) {
+        Map<String, String> errorMessage = new HashMap<>();
+        String ErrorMessage =  ex.getCause().getMessage();
+        errorMessage.put("Error",ErrorMessage.substring(ErrorMessage.indexOf("The field"), ErrorMessage.length()));
+        return errorMessage;
+    }
 
 }
