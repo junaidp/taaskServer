@@ -1,6 +1,7 @@
 package com.echo.taask.helper;
 
 import com.echo.taask.model.Customer;
+import com.echo.taask.model.Image;
 import com.echo.taask.model.Task;
 import com.echo.taask.model.User;
 import com.echo.taask.repository.CustomerRepository;
@@ -28,10 +29,10 @@ public class CustomerHelper {
     MongoOperations mongoOperations;
     Gson gson = new Gson();
 
-    public String saveCustomer(Customer customer, MultipartFile file, MultipartFile image){
+    public String saveCustomer(Customer customer, MultipartFile file, Image image){
         try {
             if(file!=null)customer.setFileId(filesHelper.uploadFile(file));
-            if(image!=null) customer.setImageId(filesHelper.uploadFile(image));
+            if(image!=null) customer.setImageId(image);
             if(customer != null)
                 customerRepository.save(customer);
             return "user saved";
@@ -66,5 +67,11 @@ public class CustomerHelper {
         {
             throw e;
         }
+    }
+
+    public Customer findCustomerById(String userId) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("id").is(userId));
+        return mongoOperations.findOne(query, Customer.class);
     }
 }

@@ -3,6 +3,7 @@ package com.echo.taask.controller;
 
 import com.echo.taask.helper.CustomerHelper;
 import com.echo.taask.model.Customer;
+import com.echo.taask.model.Image;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,7 +29,11 @@ public class CustomerController {
     public ResponseEntity<String> savecustomer(@RequestParam("file") MultipartFile file,@RequestParam("image") MultipartFile image ,@RequestPart("customer") Customer customer)
     {
         try {
-            return new ResponseEntity<>(customerHelper.saveCustomer(customer,file,image), HttpStatus.OK);
+            Image uploadImage = new Image();
+            uploadImage.setName(image.getOriginalFilename());
+            uploadImage.setContentType(image.getContentType());
+            uploadImage.setData(image.getBytes());
+            return new ResponseEntity<>(customerHelper.saveCustomer(customer,file,uploadImage), HttpStatus.OK);
         }catch(Exception ex)
         {
             return new ResponseEntity("Failed to save customer", HttpStatus.BAD_REQUEST);
@@ -68,14 +73,14 @@ public class CustomerController {
         }
     }
 
-    @GetMapping("getCustomers")
-    public ResponseEntity<String> getCustomers(@RequestParam String userid)
+    @GetMapping("getCustomer")
+    public ResponseEntity<?> getCustomer(@RequestParam String userid)
     {
         try {
-            return new ResponseEntity<>(customerHelper.getCustomers(userid),HttpStatus.OK);
+            return new ResponseEntity<>(customerHelper.findCustomerById(userid),HttpStatus.OK);
         }catch (Exception ex)
         {
-            return new ResponseEntity<>("Failed to Get Task",HttpStatus.BAD_REQUEST);
+            return ResponseEntity.badRequest().body("Failed to Get Customer");
         }
     }
 }

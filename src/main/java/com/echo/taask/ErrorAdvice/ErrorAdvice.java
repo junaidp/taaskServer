@@ -24,7 +24,7 @@ public class ErrorAdvice {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public Map<String, String> MethodArgumentNotValidExceptionExceptionHandler(MethodArgumentNotValidException ex) {
+    public Map<String, String> MethodArgumentNotValidExceptionHandler(MethodArgumentNotValidException ex) {
         Map<String, String> errorMessage = new HashMap<>();
         ex.getBindingResult().getFieldErrors().forEach(error ->
         {
@@ -35,7 +35,7 @@ public class ErrorAdvice {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MissingServletRequestPartException.class)
-    public Map<String, String> MissingServletRequestPartExceptionExceptionHandler(MissingServletRequestPartException ex) {
+    public Map<String, String> MissingServletRequestPartExceptionHandler(MissingServletRequestPartException ex) {
         Map<String, String> errorMessage = new HashMap<>();
         errorMessage.put("Error", ex.getMessage());
         return errorMessage;
@@ -43,7 +43,7 @@ public class ErrorAdvice {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MaxUploadSizeExceededException.class)
-    public Map<String, String> FileSizeLimitExceededExceptionExceptionHandler(MaxUploadSizeExceededException ex) {
+    public Map<String, String> FileSizeLimitExceededExceptionHandler(MaxUploadSizeExceededException ex) {
         Map<String, String> errorMessage = new HashMap<>();
         String ErrorMessage =  ex.getCause().getMessage();
         errorMessage.put("Error",ErrorMessage.substring(ErrorMessage.indexOf("The field"), ErrorMessage.length()));
