@@ -1,4 +1,5 @@
 package com.echo.taask.controller;
+
 import com.echo.taask.helper.UserHelper;
 import com.echo.taask.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,53 +13,66 @@ import java.util.List;
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
 public class UserController {
-  private UserHelper service;
+    private UserHelper service;
 
 
-  @GetMapping("/getAllUsers")
-    public ResponseEntity<List<User>> getUsers(){
-
-      try {
-          return new ResponseEntity<>(service.getAllUsers(),HttpStatus.OK);
-      }catch (Exception ex)
-      {
-          return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-      }
-  }
-
-    @GetMapping("/cleanDb")
-    public ResponseEntity<String> cleanDb(){
+    @GetMapping("/getAllUsers")
+    public ResponseEntity<List<User>> getUsers() {
 
         try {
-            return new ResponseEntity<>(service.cleanDb(),HttpStatus.OK);
-        }catch (Exception ex)
-        {
+            return new ResponseEntity<>(service.getAllUsers(), HttpStatus.OK);
+        } catch (Exception ex) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("/cleanDb")
+    public ResponseEntity<String> cleanDb() {
+
+        try {
+            return new ResponseEntity<>(service.cleanDb(), HttpStatus.OK);
+        } catch (Exception ex) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 
     @GetMapping("/login")
-    public ResponseEntity<User> login(String userName , String password){
+    public ResponseEntity<User> login(String userName, String password) {
 
         try {
-            return service.login(userName , password);
-        }catch (Exception ex)
-        {
+            return service.login(userName, password);
+        } catch (Exception ex) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 
-  @PostMapping("saveUser")
-  public ResponseEntity<String> saveUser(@RequestBody User user){
-      try {
-          return new ResponseEntity<>(service.saveUser(user),HttpStatus.OK);
-      }catch (Exception ex)
-      {
-          return new ResponseEntity<>("Failed to Save User", HttpStatus.BAD_REQUEST);
-      }
-  }
-
-     @Autowired
+    @PostMapping("/registerUser")
+    public ResponseEntity<?> RegisterUser(@RequestBody User user) {
+        try {
+            return new ResponseEntity<>(service.saveUser(user), HttpStatus.OK);
+        } catch (Exception ex) {
+            return new ResponseEntity<>("Failed to Save User", HttpStatus.BAD_REQUEST);
+        }
+    }
+    @PostMapping("/update")
+    public ResponseEntity<?>updateUserInfo(@RequestBody User user)
+    {
+        try {
+            return new ResponseEntity<>(service.updateUser(user),HttpStatus.OK);
+        }catch (Exception e)
+        {
+            return new ResponseEntity<>("User not found",HttpStatus.BAD_REQUEST);
+        }
+    }
+    @PostMapping("profile")
+    public ResponseEntity<?> getUserInfo(@RequestBody User user) {
+        try {
+            return new ResponseEntity<>(service.getUserByEmail(user), HttpStatus.OK);
+        } catch (Exception ex) {
+            return new ResponseEntity<>("Failed To Get User Profile!", HttpStatus.BAD_REQUEST);
+        }
+    }
+    @Autowired
     public UserController(UserHelper service) {
         System.out.println("UserController arg constructor called");
         this.service = service;
