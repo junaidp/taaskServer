@@ -32,7 +32,7 @@ public class CustomerHelper {
     public String saveCustomer(Customer customer, MultipartFile file, Image image){
         try {
             if(file!=null)customer.setFileId(filesHelper.uploadFile(file));
-            if(image!=null) customer.setImageId(image);
+            if(image!=null) customer.setImage(image);
             if(customer != null)
                 customerRepository.save(customer);
             return "user saved";

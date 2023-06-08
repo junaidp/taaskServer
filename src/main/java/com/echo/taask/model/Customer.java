@@ -20,7 +20,7 @@ public class Customer {
     private String customerNotes;
     private List<Contact> contacts;
     private String fileId;
-    private Image imageId;
+    private Image image;
 
     public String getFileId() {
         return fileId;
@@ -102,11 +102,11 @@ public class Customer {
         this.customerNotes = customerNotes;
     }
 
-    public Image getImageId() {
-        return imageId;
+    public Image getImage() {
+        return image;
     }
 
-    public void setImageId(Image imageId) {
-        this.imageId = imageId;
+    public void setImage(Image image) {
+        this.image = image;
     }
 }

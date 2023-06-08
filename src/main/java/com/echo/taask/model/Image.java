@@ -4,9 +4,10 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.mongodb.core.mapping.Document;
 import nonapi.io.github.classgraph.json.Id;
-@Document
+
 @Getter
 @Setter
+@Document
 public class Image {
     @Id
     private String id;
