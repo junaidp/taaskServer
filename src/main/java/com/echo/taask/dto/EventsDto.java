@@ -1,42 +1,17 @@
 package com.echo.taask.dto;
 
+import jakarta.validation.constraints.Pattern;
+import lombok.*;
 import java.util.Date;
-
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder@Getter@Setter
 public class EventsDto {
+    @Pattern(regexp = "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}\\+\\d{2}:\\d{2}$",
+            message = "Date must contain the following pattern 2023-06-11T02:26:15.375+00:00 ")
     private Date date;
     private String title;
+    @Pattern(regexp = "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}\\+\\d{2}:\\d{2}$",
+            message = "Date must contain the following pattern 2023-06-11T02:26:15.375+00:00 ")
     private Date dueDate;
-    private String email;
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public Date getDueDate() {
-        return dueDate;
-    }
-
-    public void setDueDate(Date dueDate) {
-        this.dueDate = dueDate;
-    }
 }

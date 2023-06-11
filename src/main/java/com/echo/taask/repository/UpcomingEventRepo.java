@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface UpcomingEventRepo extends MongoRepository<UpcomingEvents, String> {
     List<UpcomingEvents> findByEmail(String email);
+    UpcomingEvents findByEmailAndSerialNumber(String email,String serial);
 }

@@ -1,65 +1,62 @@
 package com.echo.taask.model;
 
+import java.util.Collection;
 import java.util.Date;
+
+import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.multipart.MultipartFile;
 
-@Document
-public class User {
-
+@AllArgsConstructor
+@NoArgsConstructor@Builder
+@Document @Getter@Setter
+public class User implements UserDetails {
     @Id
     private String id;
-    private String name;
+    private String firstname;
+    private String lastname;
     private String email;
     private String password;
+    private byte[] image;
     private String userRole;
     private Date creationDate = new Date();
-
-    public String getId() {
-        return id;
+    private Date updateDate = new Date();
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
     }
 
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
+    @Override
     public String getPassword() {
         return password;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    @Override
+    public String getUsername() {
+        return email;
     }
 
-    public String getUserRole() {
-        return userRole;
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
     }
 
-    public void setUserRole(String userRole) {
-        this.userRole = userRole;
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
     }
 
-    public Date getCreationDate() {
-        return creationDate;
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
     }
 
-    public void setCreationDate(Date creationDate) {
-        this.creationDate = creationDate;
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
+
 }

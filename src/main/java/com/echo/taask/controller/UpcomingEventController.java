@@ -1,66 +1,70 @@
 package com.echo.taask.controller;
 
 import com.echo.taask.dto.EventsDto;
+import com.echo.taask.helper.UpcomingEventHelper;
 import com.echo.taask.model.UpcomingEvents;
-import com.echo.taask.repository.UpcomingEventRepo;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
-import java.util.Optional;
+
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/upcoming-events")
 @CrossOrigin(origins = "*", maxAge = 3600)
 public class UpcomingEventController {
-    private final UpcomingEventRepo repository;
-
-    public UpcomingEventController(UpcomingEventRepo repository) {
-        this.repository = repository;
-    }
+    private final UpcomingEventHelper upcomingEventHelper;
 
     @PostMapping
-    public UpcomingEvents createUpcomingEvent(@RequestBody EventsDto eventDto) {
-        UpcomingEvents event = new UpcomingEvents();
-        event.setDate(eventDto.getDate());
-        event.setTitle(eventDto.getTitle());
-        event.setDueDate(eventDto.getDueDate());
-        event.setEmail(eventDto.getEmail());
-        return repository.save(event);
-    }
-    @GetMapping("/{email}")
-    public ResponseEntity<List<UpcomingEvents>> getUpcomingEventsByEmail(@PathVariable("email") String email) {
-        List<UpcomingEvents> events = repository.findByEmail(email);
-        if (!events.isEmpty()) {
-            return ResponseEntity.ok(events);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<?> createUpcomingEvent(Principal principal, @RequestHeader("Authorization") String Authorization
+            , @Valid @RequestBody EventsDto eventDto) {
+        String authenticatedUsername = principal.getName();
+        return upcomingEventHelper.createEvent(authenticatedUsername, eventDto);
     }
 
-    @DeleteMapping("/{email}")
-    public ResponseEntity<Void> deleteUpcomingEventsByEmail(@PathVariable("email") String email) {
-        List<UpcomingEvents> events = repository.findByEmail(email);
-        if (!events.isEmpty()) {
-            repository.deleteAll(events);
-            return ResponseEntity.noContent().build();
+    @GetMapping
+    public ResponseEntity<?> getUpcomingEventsByEmail(Principal principal, @RequestHeader("Authorization") String Authorization) {
+        String authenticatedUserName = principal.getName();
+        if (authenticatedUserName != null || authenticatedUserName != "") {
+            try {
+                return upcomingEventHelper.getEventList(authenticatedUserName);
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        }
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Contact Help Center");
+    }
+
+    @DeleteMapping("/{serial}")
+    public ResponseEntity<?> deleteUpcomingEventsByEmail(Principal principal, @RequestHeader("Authorization") String Authorization,
+                                                         @PathVariable("serial") String serial) {
+        String authenticatedUserName = principal.getName();
+        if (authenticatedUserName != null || authenticatedUserName != "") {
+            try {
+                return upcomingEventHelper.deleteMyEvent(authenticatedUserName, serial);
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Contact Help Center");
+            }
         } else {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No Data Found");
         }
     }
 
     @PutMapping("/update/event")
-    public ResponseEntity<UpcomingEvents> updateUpcomingEventsByEmail( @RequestBody EventsDto eventDto) {
-        List<UpcomingEvents> events = repository.findByEmail(eventDto.getEmail());
-        if (!events.isEmpty()) {
-            UpcomingEvents event = events.get(0); // Assuming there is only one event per email
-            event.setDate(eventDto.getDate());
-            event.setTitle(eventDto.getTitle());
-            event.setDueDate(eventDto.getDueDate());
-            return ResponseEntity.ok(repository.save(event));
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<?> updateUpcomingEventsByEmail(Principal principal, @PathVariable("serial") String serial, @RequestHeader("Authorization") String Authorization,
+                                                                      @RequestBody EventsDto eventDto) {
+       try {
+           String authenticatedUserName = principal.getName();
+           return upcomingEventHelper.updateEvent(authenticatedUserName,serial,eventDto);
+       }catch (Exception e){
+           return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Contact Help Center");
+       }
+
     }
-
-
 }

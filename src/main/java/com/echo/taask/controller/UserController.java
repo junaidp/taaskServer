@@ -1,80 +1,65 @@
 package com.echo.taask.controller;
 
+import com.echo.taask.dto.auth.UpdateUserRequest;
 import com.echo.taask.helper.UserHelper;
 import com.echo.taask.model.User;
+import com.echo.taask.repository.UserRepository;
+import io.swagger.annotations.Authorization;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.security.Principal;
 import java.util.List;
 
-@RequestMapping("api/user")
+@RequestMapping("user")
 @RestController
+@RequiredArgsConstructor
 @CrossOrigin(origins = "*", maxAge = 3600)
 public class UserController {
-    private UserHelper service;
+    private final UserHelper service;
+    private final UserRepository userRepository;
 
-
-    @GetMapping("/getAllUsers")
-    public ResponseEntity<List<User>> getUsers() {
-
-        try {
-            return new ResponseEntity<>(service.getAllUsers(), HttpStatus.OK);
-        } catch (Exception ex) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-    }
-
-    @GetMapping("/cleanDb")
-    public ResponseEntity<String> cleanDb() {
-
-        try {
-            return new ResponseEntity<>(service.cleanDb(), HttpStatus.OK);
-        } catch (Exception ex) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-    }
-
-    @GetMapping("/login")
-    public ResponseEntity<User> login(String userName, String password) {
-
-        try {
-            return service.login(userName, password);
-        } catch (Exception ex) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-    }
-
-    @PostMapping("/registerUser")
-    public ResponseEntity<?> RegisterUser(@RequestBody User user) {
-        try {
-            return new ResponseEntity<>(service.saveUser(user), HttpStatus.OK);
-        } catch (Exception ex) {
-            return new ResponseEntity<>("Failed to Save User", HttpStatus.BAD_REQUEST);
-        }
-    }
     @PostMapping("/update")
-    public ResponseEntity<?>updateUserInfo(@RequestBody User user)
-    {
+    public ResponseEntity<?> updateUser(Principal principal, @RequestHeader("Authorization") String Authorization,
+                                        @Valid @RequestPart("updateUser") UpdateUserRequest updateUser,
+                                        @Valid @RequestPart("image") MultipartFile image) {
         try {
-            return new ResponseEntity<>(service.updateUser(user),HttpStatus.OK);
-        }catch (Exception e)
-        {
-            return new ResponseEntity<>("User not found",HttpStatus.BAD_REQUEST);
+            String authenticatedUsername = principal.getName();
+            User user = userRepository.findByEmail(authenticatedUsername);
+            return service.updateUser(user, updateUser, image);
+        } catch (Exception e) {
+            return new ResponseEntity<>("User not found", HttpStatus.BAD_REQUEST);
         }
     }
+
     @PostMapping("profile")
-    public ResponseEntity<?> getUserInfo(@RequestBody User user) {
+    public ResponseEntity<?> getUser(Principal principal, @RequestHeader("Authorization") String Authorization,
+                                     @RequestHeader("userName") String userName) {
         try {
-            return new ResponseEntity<>(service.getUserByEmail(user), HttpStatus.OK);
+            String authenticatedUsername = principal.getName();
+            if (userName.equals(authenticatedUsername)) {
+                return service.getUserByEmail(authenticatedUsername);
+            } else {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("You Are Not Allowed To View Any Other Resource");
+            }
         } catch (Exception ex) {
-            return new ResponseEntity<>("Failed To Get User Profile!", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Server Error Contact Help Center!", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @Autowired
-    public UserController(UserHelper service) {
-        System.out.println("UserController arg constructor called");
-        this.service = service;
-    }
+
+//    @GetMapping("/getAllUsers")
+//    public ResponseEntity<List<User>> getAllUsers() {
+//
+//        try {
+//            return new ResponseEntity<>(service.getAllUsers(), HttpStatus.OK);
+//        } catch (Exception ex) {
+//            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+//        }
+//    }
 }

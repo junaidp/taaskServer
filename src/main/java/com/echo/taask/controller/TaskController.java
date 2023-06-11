@@ -4,13 +4,11 @@ package com.echo.taask.controller;
 import com.echo.taask.dto.TaskDTO;
 import com.echo.taask.helper.TaskHelper;
 import com.echo.taask.model.Task;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import javax.validation.Valid;
 import java.util.List;
 
 @RequestMapping("api/task")
