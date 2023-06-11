@@ -11,7 +11,6 @@
     <groupId>com.echo</groupId>
     <artifactId>taask</artifactId>
     <version>0.0.1</version>
-    <packaging>jar</packaging>
     <name>taask</name>
     <description>taask</description>
     <properties>
