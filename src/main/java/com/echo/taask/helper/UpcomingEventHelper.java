@@ -26,7 +26,7 @@ public class UpcomingEventHelper {
                 .dueDate(eventDto.getDueDate())
                 .email(userData.getEmail()).build();
         upcomingRepository.save(event);
-        return ResponseEntity.status(HttpStatus.CREATED).body("");
+        return ResponseEntity.status(HttpStatus.CREATED).body("Event "+ eventDto.getTitle()+" created");
     }
 
     public String generateSerialNumber() {

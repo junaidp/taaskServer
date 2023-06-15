@@ -53,13 +53,4 @@ public class UserController {
         }
     }
 
-//    @GetMapping("/getAllUsers")
-//    public ResponseEntity<List<User>> getAllUsers() {
-//
-//        try {
-//            return new ResponseEntity<>(service.getAllUsers(), HttpStatus.OK);
-//        } catch (Exception ex) {
-//            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-//        }
-//    }
 }

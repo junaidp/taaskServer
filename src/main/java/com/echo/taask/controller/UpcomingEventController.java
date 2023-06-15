@@ -57,14 +57,15 @@ public class UpcomingEventController {
     }
 
     @PutMapping("/update/event")
-    public ResponseEntity<?> updateUpcomingEventsByEmail(Principal principal, @PathVariable("serial") String serial, @RequestHeader("Authorization") String Authorization,
-                                                                      @RequestBody EventsDto eventDto) {
-       try {
-           String authenticatedUserName = principal.getName();
-           return upcomingEventHelper.updateEvent(authenticatedUserName,serial,eventDto);
-       }catch (Exception e){
-           return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Contact Help Center");
-       }
+    public ResponseEntity<?> updateUpcomingEventsByEmail(Principal principal, @RequestParam("serial") String serial,
+                                                         @RequestHeader("Authorization") String Authorization,
+                                                         @RequestBody EventsDto eventDto) {
+        try {
+            String authenticatedUserName = principal.getName();
+            return upcomingEventHelper.updateEvent(authenticatedUserName, serial, eventDto);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Contact Help Center");
+        }
 
     }
 }
