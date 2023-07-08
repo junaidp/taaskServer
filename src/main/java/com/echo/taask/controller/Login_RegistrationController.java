@@ -27,7 +27,7 @@ public class Login_RegistrationController {
             return service.registerUser(register);
         } catch (Exception ex) {
             ex.printStackTrace();
-            return new ResponseEntity<>("Failed to Save User", HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>("Please Contact Help Center", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

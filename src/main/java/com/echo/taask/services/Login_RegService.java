@@ -1,5 +1,5 @@
 package com.echo.taask.services;
-
+import org.springframework.security.core.AuthenticationException;
 import com.echo.taask.dto.auth.AuthenticationRequest;
 import com.echo.taask.dto.auth.AuthenticationResponse;
 import com.echo.taask.dto.auth.RegisterUser;
@@ -42,7 +42,11 @@ public class Login_RegService {
             }else {
                 return ResponseEntity.status(HttpStatus.OK).body("User Email Or Password Incorrect");
             }
+        }catch (AuthenticationException e) {
+            // Handle authentication failures (e.g., invalid credentials)
+            return ResponseEntity.status(HttpStatus.OK).body("Invalid credentials");
         } catch (Exception e) {
+            // Handle other exceptions
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Please Contact Help Center");
         }
     }
@@ -64,7 +68,7 @@ public class Login_RegService {
                 .put("firstname", register.getFirstname())
                 .put("lastname", register.getLastname())
                 .put("email", register.getEmail()));
-        return ResponseEntity.status(HttpStatus.CREATED)
+        return ResponseEntity.status(HttpStatus.OK)
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(responseBody.toString());
     }

@@ -46,7 +46,7 @@ public class UserController {
             if (userName.equals(authenticatedUsername)) {
                 return service.getUserByEmail(authenticatedUsername);
             } else {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("You Are Not Allowed To View Any Other Resource");
+                return ResponseEntity.status(HttpStatus.OK).body("You Are Not Allowed To View Any Other Resource");
             }
         } catch (Exception ex) {
             return new ResponseEntity<>("Server Error Contact Help Center!", HttpStatus.INTERNAL_SERVER_ERROR);
