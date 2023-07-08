@@ -1,4 +1,4 @@
-package com.echo.taask.model;
+package com.echo.taask.dto.customer;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,10 +9,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Contact {
+public class ContactResponse {
     private String name;
     private String jobTitle;
     private String emailAddress;
     private String location;
-
 }

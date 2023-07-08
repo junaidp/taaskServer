@@ -82,15 +82,4 @@ public class UserHelper {
     private boolean isNotBlank(String str) {
         return str != null && !str.trim().isEmpty();
     }
-
-
-
-
-    public List<User> getAllUsers() {
-        try {
-            return userRepository.findAll();
-        } catch (Exception e) {
-            throw e;
-        }
-    }
 }

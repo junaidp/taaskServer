@@ -14,5 +14,4 @@ public class AuthenticationResponse {
   private String lastname;
   private String email;
   private String token;
-  private String Refreshtoken;
 }

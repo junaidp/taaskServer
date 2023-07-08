@@ -2,6 +2,7 @@ package com.echo.taask.controller;
 
 
 import com.echo.taask.dto.customer.CustomerDto;
+import com.echo.taask.dto.customer.CustomerLinkDto;
 import com.echo.taask.helper.CustomerHelper;
 import com.echo.taask.model.Customer;
 import lombok.RequiredArgsConstructor;
@@ -22,34 +23,62 @@ public class CustomerController {
 
     @PostMapping("saveCustomer")
     public ResponseEntity<?> savecustomer(Principal principal
-            , @RequestPart("image") MultipartFile image
-            , @RequestPart("customer") CustomerDto customer) {
+            , @RequestPart(value = "image", required = false) MultipartFile image
+            , @RequestPart("customer") CustomerDto customer
+            , @RequestPart(value = "file", required = false) MultipartFile file
+            , @RequestPart("link") CustomerLinkDto customerLinkDto) {
         try {
             String authenticatedUser = principal.getName();
-            return customerHelper.saveCustomer(authenticatedUser, customer, image);
+            return customerHelper.saveCustomer(authenticatedUser, customer, image, file, customerLinkDto);
         } catch (Exception ex) {
             return new ResponseEntity("Please Contact Help Center!", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
+    @GetMapping
+    public ResponseEntity<?> getAllCustomer(Principal principal,
+                                            @RequestHeader("Authorization") String Authorizaion) {
+        try {
+            String authenticatedUser = principal.getName();
+            return customerHelper.getCustomersList(authenticatedUser);
+        } catch (Exception e) {
+            return new ResponseEntity("Please Contact Help Center!", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
+    @GetMapping("getCustomer")
+    public ResponseEntity<?> getCustomer(Principal principal,
+                                         @RequestParam String userid) {
+        try {
+            String authenticatedUser = principal.getName();
+            return customerHelper.findCustomerById(authenticatedUser, userid);
+        } catch (Exception ex) {
+            return ResponseEntity.internalServerError().body("Please Contact Help Center");
+        }
+    }
 
+    @DeleteMapping("DeleteCustomer")
+    public ResponseEntity<?> deleteCustomer(Principal principal,
+                                            @RequestParam String userId) {
+        try {
+            String authenticatedUser = principal.getName();
+            return customerHelper.deleteCustomerById(authenticatedUser, userId);
+        } catch (Exception ex) {
+            return ResponseEntity.internalServerError().body("Please Contact Help Center");
+        }
+    }
 
-//    @GetMapping("/getAllCustomers")
-//    public ResponseEntity<List<Customer>> getAllCustomers() {
-//        try {
-//            return new ResponseEntity<>(customerHelper.getAllCustomers(), HttpStatus.OK);
-//        } catch (Exception ex) {
-//            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-//        }
-//    }
-//
-//    @GetMapping("getCustomer")
-//    public ResponseEntity<?> getCustomer(@RequestParam String userid) {
-//        try {
-//            return new ResponseEntity<>(customerHelper.findCustomerById(userid), HttpStatus.OK);
-//        } catch (Exception ex) {
-//            return ResponseEntity.badRequest().body("Failed to Get Customer");
-//        }
-//    }
+    @PutMapping("updateCustomer")
+    public ResponseEntity<?> updateCustomer(Principal principal,
+                                            @RequestPart(value = "image", required = false) MultipartFile image,
+                                            @RequestPart("customer") CustomerDto customerDto,
+                                            @RequestParam String userId) {
+        try {
+            String authenticatedUser = principal.getName();
+            return customerHelper.updateCustomer(authenticatedUser, customerDto, userId, image);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return ResponseEntity.internalServerError().body("Please Contact Help Center");
+        }
+    }
 }

@@ -7,8 +7,6 @@ import lombok.Data;
 import nonapi.io.github.classgraph.json.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.List;
-
 @Document
 @Data
 @Builder
@@ -16,6 +14,7 @@ import java.util.List;
 public class Customer {
     @Id
     private String id;
+    private String serialNumber;
     private String category;
     private String name;
     private String location;

@@ -32,22 +32,19 @@ public class Login_RegService {
             if (authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                     request.getEmail(), request.getPassword())).isAuthenticated()) {
                 var user = userRepository.findByEmail(request.getEmail());
-                if (user == null) {
-                    return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
-                }
-                return ResponseEntity.status(HttpStatus.ACCEPTED).body(
+                return ResponseEntity.status(HttpStatus.OK).body(
                         AuthenticationResponse.builder()
                                 .firstname(user.getFirstname())
                                 .lastname(user.getLastname())
                                 .email(user.getEmail())
                                 .token(jwtService.generateToken(user))
-                                .Refreshtoken(jwtService.generateRefreshToken(user))
                                 .build());
+            }else {
+                return ResponseEntity.status(HttpStatus.OK).body("User Email Or Password Incorrect");
             }
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User Email Or Password Incorrect");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Please Contact Help Center");
         }
-        return null;
     }
 
 
