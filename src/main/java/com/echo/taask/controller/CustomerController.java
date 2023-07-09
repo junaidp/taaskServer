@@ -22,7 +22,6 @@ import java.util.List;
 @CrossOrigin(origins = "*", maxAge = 3600)
 public class CustomerController {
     private final CustomerHelper customerHelper;
-    Gson gson = new Gson();
     @PostMapping("saveCustomer")
     public ResponseEntity<?> savecustomer(Principal principal
             , @RequestPart(value = "image", required = false) MultipartFile image
