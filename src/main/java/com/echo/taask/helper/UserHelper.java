@@ -58,19 +58,19 @@ public class UserHelper {
 
     public ResponseEntity<?> getUserByEmail(String user) {
         try {
-                User userProfile = userRepository.findByEmail(user);
+            User userProfile = userRepository.findByEmail(user);
             JSONObject responseBody = new JSONObject();
             responseBody.put("Registerd_User", new JSONObject()
                     .put("firstname", userProfile.getFirstname())
                     .put("lastname", userProfile.getLastname())
                     .put("email", userProfile.getEmail())
                     .put("image", userProfile.getImage()));
-            return ResponseEntity.status(HttpStatus.FOUND)
+            return ResponseEntity.status(HttpStatus.OK)
                     .contentType(MediaType.APPLICATION_JSON)
                     .body(responseBody.toString());
-            }
-         catch (Exception e) {
-            throw e;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>("Server Error Contact Help Center!", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 

@@ -86,12 +86,12 @@ public class CustomerHelper {
                 customerFilesRepository.save(customerfile);
             }
             if (!customerId.isEmpty()) {
-                return ResponseEntity.status(HttpStatus.CREATED).body("Customer " + customer.getName() + " saved!");
+                return ResponseEntity.status(HttpStatus.OK).body("Customer " + customer.getName() + " saved!");
             }
         } catch (Exception e) {
             throw e;
         }
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Customer Body Required!");
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Please Contact Help Center!");
     }
 
     //Checking Image Format
