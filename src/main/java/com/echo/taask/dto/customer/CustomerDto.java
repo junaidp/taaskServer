@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CustomerDto {
-    private Image image;
     private String category;
     private String customerStage;
     private String customerSince;
