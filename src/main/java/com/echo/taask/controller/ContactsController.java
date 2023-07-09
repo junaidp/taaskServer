@@ -25,7 +25,7 @@ public class ContactsController {
         this.contactsHelper =  contactsHelper;
     }
 
-    @PostMapping("saveContact")
+    @PostMapping("/saveContact")
     public ResponseEntity<String> saveContacts(@RequestBody Contact contact)
     {
         try {
@@ -35,7 +35,7 @@ public class ContactsController {
         }
     }
 
-    @GetMapping("getAllContacts")
+    @GetMapping("/getAllContacts")
     public ResponseEntity<List<Contact>> getAllContacts()
     {
         try{

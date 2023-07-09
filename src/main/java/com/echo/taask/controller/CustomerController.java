@@ -22,7 +22,7 @@ import java.util.List;
 @CrossOrigin(origins = "*", maxAge = 3600)
 public class CustomerController {
     private final CustomerHelper customerHelper;
-    @PostMapping("saveCustomer")
+    @PostMapping("/saveCustomer")
     public ResponseEntity<?> savecustomer(Principal principal
             , @RequestPart(value = "image", required = false) MultipartFile image
             , @RequestPart("customer") CustomerDto customer
@@ -47,7 +47,7 @@ public class CustomerController {
         }
     }
 
-    @GetMapping("getCustomer")
+    @GetMapping("/getCustomer")
     public ResponseEntity<?> getCustomer(Principal principal,
                                          @RequestParam String userid) {
         try {
