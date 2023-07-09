@@ -26,14 +26,12 @@ public class CustomerController {
     @PostMapping("saveCustomer")
     public ResponseEntity<?> savecustomer(Principal principal
             , @RequestPart(value = "image", required = false) MultipartFile image
-            , @RequestPart("customer") String customer
+            , @RequestPart("customer") CustomerDto customer
             , @RequestPart(value = "file", required = false) MultipartFile file
-            , @RequestPart("link") String customerLinkDto) {
+            , @RequestPart("link") CustomerLinkDto customerLinkDto) {
         try {
             String authenticatedUser = principal.getName();
-            CustomerDto customerJson = gson.fromJson(customer,CustomerDto.class);
-            CustomerLinkDto customerlinks = gson.fromJson(customerLinkDto,CustomerLinkDto.class);
-            return customerHelper.saveCustomer(authenticatedUser, customerJson, image, file, customerlinks);
+            return customerHelper.saveCustomer(authenticatedUser, customer, image, file, customerLinkDto);
         } catch (Exception ex) {
             return new ResponseEntity("Please Contact Help Center!", HttpStatus.INTERNAL_SERVER_ERROR);
         }
