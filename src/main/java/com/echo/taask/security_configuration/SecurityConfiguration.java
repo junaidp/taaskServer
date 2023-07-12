@@ -26,7 +26,7 @@ public class SecurityConfiguration {
                 .cors().and()
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/login/**", "/register/**", "/swagger-ui/").permitAll()
+                        .requestMatchers("/login/**", "/register/**", "/swagger*/**").permitAll()
                         .requestMatchers("/user/**", "/upcoming-events/**",
                                 "/customer/**", "/resources/**")
                         .authenticated().anyRequest().permitAll()
