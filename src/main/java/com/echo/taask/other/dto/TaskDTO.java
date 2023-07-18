@@ -1,7 +1,7 @@
 package com.echo.taask.other.dto;
 
 import com.echo.taask.customer.Customer;
-import com.echo.taask.other.model.SubTask;
+import com.echo.taask.customerTask.SubTask;
 
 import java.io.Serializable;
 import java.util.ArrayList;

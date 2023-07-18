@@ -6,13 +6,12 @@ import com.echo.taask.recources.Image;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import nonapi.io.github.classgraph.json.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document
-@Data
-@Builder
-@AllArgsConstructor
+@Data@Builder
 public class Customer {
     @Id
     private String id;

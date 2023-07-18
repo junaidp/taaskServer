@@ -15,4 +15,6 @@ public class Files {
     private String filetype;
     private String email;
     private String customerSerial;
+    private String customerTaskSerial;
+    private String projectHocSerial;
 }

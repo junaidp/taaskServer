@@ -1,6 +1,7 @@
 package com.echo.taask.other.model;
 
 
+import com.echo.taask.customerTask.SubTask;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import nonapi.io.github.classgraph.json.Id;
@@ -13,16 +14,19 @@ import java.util.Date;
 public class Task {
     @Id
     private String id;
-    @NotNull(message = "Task Name Should Not Be Null")
-    private String taskName;
+    //TODO
+    //customer image, name, customer stage
     @Pattern(regexp = "^[0-9a-fA-F]{24}$", message = "Randomly Generated Hexadecimal String Of Registered Customer")
     private String customerId;
 
+
+    //rename it to customertask
+    @NotNull(message = "Task Name Should Not Be Null")
+    private String taskName;
+    private Date dueDate;
     private ArrayList<SubTask> subTask;
 
     private String fileId;
-
-    private Date dueDate;
 
     private String formattedTime;
 
