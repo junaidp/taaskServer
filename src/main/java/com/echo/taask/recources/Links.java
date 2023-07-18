@@ -11,4 +11,6 @@ public class Links {
     private String link;
     private String description;
     private String customerSerial;
+    private String customerTaskSerial;
+    private String projectHocSerial;
 }

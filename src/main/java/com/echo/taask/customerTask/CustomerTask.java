@@ -22,7 +22,6 @@ public class CustomerTask {
     private String taskName;
     private Date dueDate;
     private Date assignedDate;
-
     private String status;
     private ArrayList<SubTask> subTask;
 }

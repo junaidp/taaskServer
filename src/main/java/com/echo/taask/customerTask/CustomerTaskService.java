@@ -1,6 +1,7 @@
 package com.echo.taask.customerTask;
 
 import com.echo.taask.customer.Customer;
+import com.echo.taask.customer.dto.CustomerFilesDto;
 import com.echo.taask.customer.dto.ImageResponse;
 import com.echo.taask.customer.reporisoties.CustomerFilesRepository;
 import com.echo.taask.customer.reporisoties.CustomerRepository;
@@ -69,10 +70,6 @@ public class CustomerTaskService {
         return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON).body("Customer Task Created!");
     }
 
-    public String generateSerialNumber() {
-        // You can use a UUID or any other unique identifier generation mechanism
-        return UUID.randomUUID().toString();
-    }
 
     public ResponseEntity<?> getAllTask(Principal principal, int page, int size) {
         List<CustomerTaskResponse> returnListResponse = new ArrayList<>();
@@ -88,6 +85,7 @@ public class CustomerTaskService {
                     getCustomerData(relatedCustomer.get(), customerTaskResponse, imageResponse);
                 }
                 customerTaskResponse.setCustomerTask(customerTaskData.getTaskName());
+                customerTaskResponse.setTaskSerial(customerTaskData.getCustomerTaskSerial());
                 customerTaskResponse.setTaskPriority(customerTaskData.getTaskPriority());
                 customerTaskResponse.setDueDate(customerTaskData.getDueDate());
                 customerTaskResponse.setAssignedDate(customerTaskData.getAssignedDate());
@@ -105,11 +103,94 @@ public class CustomerTaskService {
         }
     }
 
-    private void getCustomerData(Customer customer, CustomerTaskResponse customerTaskResponse, ImageResponse imageResponse) {
-        customerTaskResponse.setCustomerName(customer.getName());
-        customerTaskResponse.setCustomerStage(customer.getCustomerStage());
-        imageResponse.setName(customer.getImage().getName());
-        imageResponse.setContentType(customer.getImage().getContentType());
-        imageResponse.setData(customer.getImage().getData());
+    public ResponseEntity<?> deleteCustomerTask(Principal principal, String customerTaskSerial) {
+        Optional<CustomerTask> customerTask = customerTaskRepository.findByCustomerTaskSerialAndUserEmail(customerTaskSerial, principal.getName());
+        if (customerTask.isPresent()) {
+            customerTaskRepository.deleteByCustomerTaskSerialAndUserEmail(customerTaskSerial, principal.getName());
+            return ResponseEntity.status(HttpStatus.OK)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body("Customer Task Deleted Successfully");
+        } else {
+            return ResponseEntity.status(HttpStatus.OK)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body("Customer Ain't Got No Task For The Following Id!");
+        }
+
     }
+
+    public ResponseEntity<?> getCustomerTaskById(Principal principal, String customerTaskSerial) {
+        Optional<CustomerTask> customerTask = customerTaskRepository.findByCustomerTaskSerialAndUserEmail(customerTaskSerial, principal.getName());
+        if (customerTask.isPresent()) {
+            CustomerTaskDetailResponse response = new CustomerTaskDetailResponse();
+            ImageResponse imageResponse = new ImageResponse();
+            List<Files> files = projectFilesReporitory.findAllByCustomerTaskSerialAndEmail(customerTask.get().getCustomerSerialNumber(), principal.getName());
+            Optional<Customer> relatedCustomer = customerRepository
+                    .findBySerialNumberAndEmail(customerTask.get().getCustomerSerialNumber(), principal.getName());
+            if (relatedCustomer.isPresent()) {
+                getCustomerData(relatedCustomer.get(), response, imageResponse);
+            }
+            response.setTaskSerial(customerTask.get().getCustomerTaskSerial());
+            response.setTaskPriority(customerTask.get().getTaskPriority());
+            response.setCustomerTask(customerTask.get().getTaskName());
+            response.setDueDate(customerTask.get().getDueDate());
+            response.setAssignedDate(customerTask.get().getAssignedDate());
+            response.setStatus(customerTask.get().getStatus());
+            response.setSubTask(customerTask.get().getSubTask());
+            response.setImage(imageResponse);
+            List<CustomerFilesDto> customerFilesList = new ArrayList<>();
+            if (!files.isEmpty()) {
+                for (Files fileData : files) {
+                    com.echo.taask.customer.dto.CustomerFilesDto customerFilesDto = new com.echo.taask.customer.dto.CustomerFilesDto();
+                    customerFilesDto.setUuid(fileData.getUuid());
+                    customerFilesDto.setFilename(fileData.getFilename());
+                    customerFilesDto.setFiletype(fileData.getFiletype());
+                    customerFilesDto.setFileSize(fileData.getFileSize());
+                    customerFilesDto.setFile(fileData.getFile());
+                    customerFilesList.add(customerFilesDto);
+                }
+            }
+            response.setFiles(customerFilesList);
+            return ResponseEntity.status(HttpStatus.OK)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(response);
+
+        } else {
+            return ResponseEntity.status(HttpStatus.OK)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body("Customer Ain't Got No Task For The Following Id!");
+        }
+    }
+
+    public ResponseEntity<?> updateCustomerTask(Principal principal, String customerTaskSerial) {
+        return null;
+
+    }
+
+    private <T> void getCustomerData(Customer customer, T response, ImageResponse imageResponse) {
+        if (response instanceof CustomerTaskResponse) {
+            CustomerTaskResponse customerTaskResponse = (CustomerTaskResponse) response;
+            customerTaskResponse.setCustomerName(customer.getName());
+            customerTaskResponse.setCustomerStage(customer.getCustomerStage());
+            imageResponse.setName(customer.getImage().getName());
+            imageResponse.setContentType(customer.getImage().getContentType());
+            imageResponse.setData(customer.getImage().getData());
+        }
+        if (response instanceof CustomerTaskDetailResponse) {
+            CustomerTaskDetailResponse customerTaskDetailResponse = (CustomerTaskDetailResponse) response;
+            customerTaskDetailResponse.setCustomerName(customer.getName());
+            customerTaskDetailResponse.setCustomerStage(customer.getCustomerStage());
+            imageResponse.setName(customer.getImage().getName());
+            imageResponse.setContentType(customer.getImage().getContentType());
+            imageResponse.setData(customer.getImage().getData());
+        }
+
+    }
+
+    public String generateSerialNumber() {
+        // You can use a UUID or any other unique identifier generation mechanism
+        return UUID.randomUUID().toString();
+    }
+
+
+
 }
