@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.security.Principal;
+import java.util.List;
 
 @RequestMapping("customerTask")
 @RestController
@@ -18,7 +19,7 @@ public class CustomerTaskController {
     private final CustomerTaskService customerTaskService;
     @PostMapping
     public ResponseEntity<?> saveCustomerTask(@Valid @RequestPart(value = "customerTask") CustomerTaskRequest customerTaskRequest,
-                                              @RequestPart(required = false) MultipartFile file, Principal principal) {
+                                              @RequestPart(required = false) List<MultipartFile> file, Principal principal) {
         try {
             String authenticatedUser = principal.getName();
             return customerTaskService.saveTask(authenticatedUser, customerTaskRequest, file);

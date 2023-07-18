@@ -38,7 +38,7 @@ public class CustomerHelper {
     MongoOperations mongoOperations;
 
 
-    public ResponseEntity<?> saveCustomer(String authenticatedUser, CustomerDto customer, MultipartFile image, MultipartFile file, CustomerLinkDto customerLinkDto)
+    public ResponseEntity<?> saveCustomer(String authenticatedUser, CustomerDto customer, MultipartFile image, List<MultipartFile> file, List<CustomerLinkDto> customerLinkDto)
             throws IOException {
         Image uploadImage = new Image();
         Files customerfile = new Files();
@@ -71,24 +71,30 @@ public class CustomerHelper {
                 customerRepository.save(saveCustomer);
                 customerId = saveCustomer.getSerialNumber();
             }
-            if (customerLinkDto != null) {
-                Links customerLinks = new Links();
-                customerLinks.setUuid(generateSerialNumber());
-                customerLinks.setLink(customerLinkDto.getLink());
-                customerLinks.setEmail(authenticatedUser);
-                customerLinks.setDescription(customerLinkDto.getDescription());
-                customerLinks.setCustomerSerial(customerId);
-                customerLinksRepostiory.save(customerLinks);
+            if (customerLinkDto != null && !customerLinkDto.isEmpty()) {
+                for (CustomerLinkDto customerLinksData : customerLinkDto)
+                {
+                    Links customerLinks = new Links();
+                    customerLinks.setUuid(generateSerialNumber());
+                    customerLinks.setLink(customerLinksData.getLink());
+                    customerLinks.setEmail(authenticatedUser);
+                    customerLinks.setDescription(customerLinksData.getDescription());
+                    customerLinks.setCustomerSerial(customerId);
+                    customerLinksRepostiory.save(customerLinks);
+                }
             }
-            byte[] fileBytes = file.getBytes();
-            if (file != null && fileBytes.length > 0) {
-                customerfile.setUuid(generateSerialNumber());
-                customerfile.setEmail(authenticatedUser);
-                customerfile.setFilename(file.getOriginalFilename());
-                customerfile.setFiletype(file.getContentType());
-                customerfile.setFile(file.getBytes());
-                customerfile.setCustomerSerial(customerId);
-                customerFilesRepository.save(customerfile);
+            if (file != null && !file.isEmpty()) {
+                for (MultipartFile fileData : file) {
+                    Files projectFile = new Files();
+                    projectFile.setUuid(generateSerialNumber());
+                    projectFile.setEmail(authenticatedUser);
+                    projectFile.setFilename(fileData.getOriginalFilename());
+                    projectFile.setFiletype(fileData.getContentType());
+                    projectFile.setFile(fileData.getBytes());
+                    customerfile.setCustomerSerial(customerId);
+                    customerFilesRepository.save(customerfile);
+
+                }
             }
             if (!customerId.isEmpty()) {
                 return ResponseEntity.status(HttpStatus.OK).body("Customer " + customer.getName() + " saved!");

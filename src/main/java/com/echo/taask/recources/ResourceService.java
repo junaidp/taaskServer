@@ -25,38 +25,45 @@ public class ResourceService {
     private final CustomerFilesRepository customerFilesRepository;
     private final CustomerLinksRepostiory customerLinksRepostiory;
 
-    public ResponseEntity<?> addResources(String customerId, String authenticatedUser, MultipartFile file,
-                                          CustomerLinkDto customerLinkDto) throws IOException {
+    public ResponseEntity<?> addResources(String customerId, String authenticatedUser, List<MultipartFile> file,
+                                          List <CustomerLinkDto> customerLinkDto) throws IOException {
         Boolean fileCheck = false;
         Boolean linkCheck = false;
-        Files customerfile = new Files();
-        if (file != null && file.getBytes().length > 0) {
-            customerfile.setUuid(generateSerialNumber());
-            customerfile.setEmail(authenticatedUser);
-            customerfile.setFilename(file.getOriginalFilename());
-            customerfile.setFiletype(file.getContentType());
-            customerfile.setFile(file.getBytes());
-            if (customerId == null || customerId.isEmpty() || customerId.equals("")) {
-                customerfile.setCustomerSerial(null);
-            } else {
-                customerfile.setCustomerSerial(customerId);
+
+        if (file != null && !file.isEmpty()) {
+            for (MultipartFile filesData : file)
+            {
+                Files customerfile = new Files();
+                customerfile.setUuid(generateSerialNumber());
+                customerfile.setEmail(authenticatedUser);
+                customerfile.setFilename(filesData.getOriginalFilename());
+                customerfile.setFiletype(filesData.getContentType());
+                customerfile.setFile(filesData.getBytes());
+                if (customerId == null || customerId.isEmpty() || customerId.equals("")) {
+                    customerfile.setCustomerSerial(null);
+                } else {
+                    customerfile.setCustomerSerial(customerId);
+                }
+                customerFilesRepository.save(customerfile);
+                fileCheck = true;
             }
-            customerFilesRepository.save(customerfile);
-            fileCheck = true;
         }
-        if (customerLinkDto != null) {
-            Links customerLinks = new Links();
-            customerLinks.setUuid(generateSerialNumber());
-            customerLinks.setLink(customerLinkDto.getLink());
-            customerLinks.setEmail(authenticatedUser);
-            customerLinks.setDescription(customerLinkDto.getDescription());
-            if (customerId == null || customerId.isEmpty() || customerId.equals("")) {
-                customerLinks.setCustomerSerial(null);
-            } else {
-                customerLinks.setCustomerSerial(customerId);
+        if (customerLinkDto != null && !customerLinkDto.isEmpty()) {
+            for (CustomerLinkDto customerLinksData : customerLinkDto)
+            {
+                Links customerLinks = new Links();
+                customerLinks.setUuid(generateSerialNumber());
+                customerLinks.setLink(customerLinksData.getLink());
+                customerLinks.setEmail(authenticatedUser);
+                customerLinks.setDescription(customerLinksData.getDescription());
+                if (customerId == null || customerId.isEmpty() || customerId.equals("")) {
+                    customerLinks.setCustomerSerial(null);
+                } else {
+                    customerLinks.setCustomerSerial(customerId);
+                }
+                customerLinksRepostiory.save(customerLinks);
+                linkCheck = true;
             }
-            customerLinksRepostiory.save(customerLinks);
-            linkCheck = true;
         }
         if (fileCheck == true && linkCheck == true) {
             return ResponseEntity.status(HttpStatus.OK)

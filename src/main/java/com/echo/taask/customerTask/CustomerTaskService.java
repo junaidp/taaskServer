@@ -28,10 +28,8 @@ public class CustomerTaskService {
     private final CustomerTaskRepository customerTaskRepository;
     public static final List<String> ALLOWED_STATUSES = Arrays.asList("high", "moderate", "low");
 
-    public ResponseEntity<?> saveTask(String authenticatedUser, CustomerTaskRequest customerTaskRequest, MultipartFile file) throws IOException {
+    public ResponseEntity<?> saveTask(String authenticatedUser, CustomerTaskRequest customerTaskRequest, List<MultipartFile> file) throws IOException {
         CustomerTask customerTask = new CustomerTask();
-        Files projectFile = new Files();
-
         Optional<Customer> customer = customerRepository.findBySerialNumberAndEmail(customerTaskRequest.getCustomerSerialNumber()
                 , authenticatedUser);
         if (!customer.isPresent()) {
@@ -56,14 +54,17 @@ public class CustomerTaskService {
             customerTask.setSubTask(subTasks);
             customerTaskRepository.save(customerTask);
         }
-        if ((file != null) && (file.getBytes().length > 0)) {
-            projectFile.setUuid(generateSerialNumber());
-            projectFile.setEmail(authenticatedUser);
-            projectFile.setFilename(file.getOriginalFilename());
-            projectFile.setFiletype(file.getContentType());
-            projectFile.setFile(file.getBytes());
-            projectFile.setCustomerTaskSerial(customerTask.getCustomerSerialNumber());
-            projectFilesReporitory.save(projectFile);
+        if (file != null && !file.isEmpty()) {
+            for (MultipartFile fileData : file) {
+                Files projectFile = new Files();
+                projectFile.setUuid(generateSerialNumber());
+                projectFile.setEmail(authenticatedUser);
+                projectFile.setFilename(fileData.getOriginalFilename());
+                projectFile.setFiletype(fileData.getContentType());
+                projectFile.setFile(fileData.getBytes());
+                projectFile.setCustomerTaskSerial(customerTask.getCustomerSerialNumber());
+                projectFilesReporitory.save(projectFile);
+            }
         }
         return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON).body("Customer Task Created!");
     }
@@ -84,7 +85,7 @@ public class CustomerTaskService {
                 Optional<Customer> relatedCustomer = customerRepository
                         .findBySerialNumberAndEmail(customerTaskData.getCustomerSerialNumber(), principal.getName());
                 if (relatedCustomer.isPresent()) {
-                    getCustomerData(relatedCustomer.get(), customerTaskResponse,imageResponse);
+                    getCustomerData(relatedCustomer.get(), customerTaskResponse, imageResponse);
                 }
                 customerTaskResponse.setCustomerTask(customerTaskData.getTaskName());
                 customerTaskResponse.setTaskPriority(customerTaskData.getTaskPriority());
@@ -97,7 +98,7 @@ public class CustomerTaskService {
             return ResponseEntity.status(HttpStatus.OK)
                     .contentType(MediaType.APPLICATION_JSON)
                     .body(returnListResponse);
-        }else {
+        } else {
             return ResponseEntity.status(HttpStatus.OK)
                     .contentType(MediaType.APPLICATION_JSON)
                     .body("User Ain't Got No Task!");

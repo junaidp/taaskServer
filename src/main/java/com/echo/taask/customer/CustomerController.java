@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.security.Principal;
+import java.util.List;
 
 @RequestMapping("customer")
 @RestController
@@ -20,8 +21,8 @@ public class CustomerController {
     public ResponseEntity<?> savecustomer(Principal principal
             , @RequestPart(value = "image", required = false) MultipartFile image
             , @RequestPart("customer") CustomerDto customer
-            , @RequestPart(value = "file", required = false) MultipartFile file
-            , @RequestPart("link") CustomerLinkDto customerLinkDto) {
+            , @RequestPart(value = "file", required = false) List<MultipartFile> file
+            , @RequestPart("link") List<CustomerLinkDto> customerLinkDto) {
         try {
             String authenticatedUser = principal.getName();
             return customerHelper.saveCustomer(authenticatedUser, customer, image, file, customerLinkDto);

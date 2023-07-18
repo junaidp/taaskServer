@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.security.Principal;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -20,8 +21,8 @@ public class ResourceController {
     @PostMapping
     public ResponseEntity<?> uploadResource(Principal principal,
                                             @RequestParam(value = "customerId", required = false) String customerId,
-                                            @RequestPart(value = "file", required = false) MultipartFile file,
-                                            @RequestPart(value = "link", required = false) CustomerLinkDto customerLinkDto) {
+                                            @RequestPart(value = "file", required = false) List<MultipartFile> file,
+                                            @RequestPart(value = "link", required = false) List<CustomerLinkDto> customerLinkDto) {
         try {
             String authenticatedUser = principal.getName();
             return resourceService.addResources(customerId, authenticatedUser, file, customerLinkDto);
