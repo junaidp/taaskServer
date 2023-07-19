@@ -161,9 +161,33 @@ public class CustomerTaskService {
         }
     }
 
-    public ResponseEntity<?> updateCustomerTask(Principal principal, String customerTaskSerial) {
-        return null;
-
+    public ResponseEntity<?> updateCustomerTask(Principal principal, String customerTaskSerial, CustomerTaskRequest customerTaskRequest) {
+        CustomerTask customerTask = new CustomerTask();
+        Optional<Customer> customer = customerRepository.findBySerialNumberAndEmail(customerTaskRequest.getCustomerSerialNumber()
+                , principal.getName());
+        if (!customer.isPresent()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).contentType(MediaType.APPLICATION_JSON).body("Please Select A Valid Customer");
+        }
+        if (customerTaskRequest != null) {
+           Optional<CustomerTask> customerTaskExistingData =  customerTaskRepository.findByCustomerTaskSerialAndUserEmail(customerTaskSerial,principal.getName());
+            ArrayList<SubTask> subTasks = new ArrayList<>();
+            for (SubTask task : customerTaskRequest.getSubTask()) {
+                subTasks.add(task);
+            }
+            customerTask.setTaskPriority(customerTaskRequest.getTaskPriority().toLowerCase());
+            customerTask.setCustomerTaskSerial(customerTaskExistingData.get().getCustomerTaskSerial());
+            customerTask.setCustomerSerialNumber(customerTaskRequest.getCustomerSerialNumber());
+            customerTask.setTaskName(customerTaskRequest.getTaskName());
+            customerTask.setDueDate(customerTaskRequest.getDueDate());
+            customerTask.setAssignedDate(customerTaskRequest.getAssignedDate());
+            customerTask.setStatus(customerTaskRequest.getStatus());
+            customerTask.setUserEmail(principal.getName());
+            customerTask.setSubTask(subTasks);
+            customerTaskRepository.save(customerTask);
+            return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON).body("Customer Task Updated!");
+        }else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).contentType(MediaType.APPLICATION_JSON).body("Customer Task Payload Required!");
+        }
     }
 
     private <T> void getCustomerData(Customer customer, T response, ImageResponse imageResponse) {

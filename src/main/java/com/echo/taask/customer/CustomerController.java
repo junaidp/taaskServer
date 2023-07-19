@@ -22,7 +22,7 @@ public class CustomerController {
             , @RequestPart(value = "image", required = false) MultipartFile image
             , @RequestPart("customer") CustomerDto customer
             , @RequestPart(value = "file", required = false) List<MultipartFile> file
-            , @RequestPart("link") List<CustomerLinkDto> customerLinkDto) {
+            , @RequestPart(value = "link", required = false) List<CustomerLinkDto> customerLinkDto) {
         try {
             String authenticatedUser = principal.getName();
             return customerHelper.saveCustomer(authenticatedUser, customer, image, file, customerLinkDto);

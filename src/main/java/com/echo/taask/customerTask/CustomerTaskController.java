@@ -69,12 +69,12 @@ public class CustomerTaskController {
         }
     }
 
-    @PutMapping("update/customerTask")
-    public ResponseEntity<?> updateCustomerTask(Principal principal,
+    @PutMapping("update")
+    public ResponseEntity<?> updateCustomerTask(Principal principal, @RequestBody CustomerTaskRequest customerTaskRequest,
                                                 @RequestParam String customerTaskSerial)
     {
         try {
-            return customerTaskService.updateCustomerTask(principal,customerTaskSerial);
+            return customerTaskService.updateCustomerTask(principal,customerTaskSerial,customerTaskRequest);
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).contentType(MediaType.APPLICATION_JSON)
