@@ -2,9 +2,7 @@ package com.echo.taask.other.controller;
 
 import com.echo.taask.customer.reporisoties.ContactsRepository;
 import com.echo.taask.customer.reporisoties.CustomerRepository;
-import com.echo.taask.other.repository.MeetingRepository;
 import com.echo.taask.other.repository.ResourcesRepository;
-import com.echo.taask.other.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.http.HttpStatus;
@@ -24,13 +22,8 @@ public class DBCLEANUP {
 
 
     @Autowired
-    MeetingRepository meetingRepository;
-
-    @Autowired
     ResourcesRepository resourcesRepository;
 
-    @Autowired
-    TaskRepository taskRepository;
 
     @Autowired
     MongoOperations mongoOperations;
@@ -50,8 +43,6 @@ public class DBCLEANUP {
             customerRepository.deleteAll();
             contactsRepository.deleteAll();
             resourcesRepository.deleteAll();
-            taskRepository.deleteAll();
-            meetingRepository.deleteAll();
             return "Db Cleaned";
         } catch (Exception ex) {
             return "Error in cleaning db: " + ex.getMessage();

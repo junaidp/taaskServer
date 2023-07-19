@@ -18,9 +18,9 @@ public class UserController {
     private final UserRepository userRepository;
 
     @PostMapping("/update")
-    public ResponseEntity<?> updateUser(Principal principal, @RequestHeader("Authorization") String Authorization,
+    public ResponseEntity<?> updateUser(Principal principal,
                                         @Valid @RequestPart("updateUser") UpdateUserRequest updateUser,
-                                        @Valid @RequestPart("image") MultipartFile image) {
+                                        @RequestPart(value = "image", required = false) MultipartFile image) {
         try {
             String authenticatedUsername = principal.getName();
             User user = userRepository.findByEmail(authenticatedUsername);
@@ -30,16 +30,11 @@ public class UserController {
         }
     }
 
-    @PostMapping("profile")
-    public ResponseEntity<?> getUser(Principal principal, @RequestHeader("Authorization") String Authorization,
-                                     @RequestHeader("userName") String userName) {
+    @GetMapping("profile")
+    public ResponseEntity<?> getUser(Principal principal) {
         try {
             String authenticatedUsername = principal.getName();
-            if (userName.equals(authenticatedUsername)) {
-                return service.getUserByEmail(authenticatedUsername);
-            } else {
-                return ResponseEntity.status(HttpStatus.OK).body("You Are Not Allowed To View Any Other Resource");
-            }
+            return service.getUserByEmail(authenticatedUsername);
         } catch (Exception ex) {
             return new ResponseEntity<>("Server Error Contact Help Center!", HttpStatus.INTERNAL_SERVER_ERROR);
         }

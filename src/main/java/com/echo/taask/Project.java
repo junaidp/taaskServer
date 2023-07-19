@@ -1,5 +1,6 @@
-package com.echo.taask.other.model;
+package com.echo.taask;
 
+import com.echo.taask.other.model.Resource;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;

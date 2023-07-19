@@ -3,6 +3,7 @@ package com.echo.taask.user;
 import java.util.Collection;
 import java.util.Date;
 
+import com.echo.taask.recources.Image;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -20,7 +21,7 @@ public class User implements UserDetails {
     private String lastname;
     private String email;
     private String password;
-    private byte[] image;
+    private Image image;
     private String userRole;
     private Date creationDate = new Date();
     private Date updateDate = new Date();

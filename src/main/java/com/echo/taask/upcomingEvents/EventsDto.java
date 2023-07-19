@@ -1,4 +1,4 @@
-package com.echo.taask.other.dto;
+package com.echo.taask.upcomingEvents;
 
 import jakarta.validation.constraints.Pattern;
 import lombok.*;

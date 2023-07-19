@@ -1,6 +1,5 @@
 package com.echo.taask.upcomingEvents;
 
-import com.echo.taask.other.dto.EventsDto;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

@@ -1,5 +1,7 @@
 package com.echo.taask.user;
 
+import com.echo.taask.customer.dto.ImageResponse;
+import com.echo.taask.recources.Image;
 import lombok.RequiredArgsConstructor;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +30,6 @@ public class UserHelper {
                 saveUpdatedUser.setFirstname(isNotBlank(updateUser.getFirstname()) ? updateUser.getFirstname() : user.getFirstname());
                 saveUpdatedUser.setLastname(isNotBlank(updateUser.getLastname()) ? updateUser.getLastname() : user.getLastname());
                 saveUpdatedUser.setPassword(isNotBlank(updateUser.getPassword()) ? passwordEncoder.encode(updateUser.getPassword()) : user.getPassword());
-                saveUpdatedUser.setImage(image.getBytes() != null ? image.getBytes() : user.getImage());
                 saveUpdatedUser.setEmail(user.getEmail());
                 saveUpdatedUser.setCreationDate(user.getCreationDate());
                 saveUpdatedUser.setUpdateDate(new Date());
@@ -39,7 +40,11 @@ public class UserHelper {
                 if (fileExtension == null || !isSupportedImageFormat(fileExtension)) {
                     return ResponseEntity.badRequest().body("Invalid image file");
                 } else {
-                    saveUpdatedUser.setImage(image.getBytes() != null ? image.getBytes() : user.getImage());
+                    Image uploadImage = new Image();
+                    uploadImage.setName(image.getOriginalFilename());
+                    uploadImage.setContentType(image.getContentType());
+                    uploadImage.setData(image.getBytes());
+                    saveUpdatedUser.setImage(uploadImage);
                 }
             }
             userRepository.save(saveUpdatedUser);
@@ -55,15 +60,20 @@ public class UserHelper {
     public ResponseEntity<?> getUserByEmail(String user) {
         try {
             User userProfile = userRepository.findByEmail(user);
-            JSONObject responseBody = new JSONObject();
-            responseBody.put("Registerd_User", new JSONObject()
-                    .put("firstname", userProfile.getFirstname())
-                    .put("lastname", userProfile.getLastname())
-                    .put("email", userProfile.getEmail())
-                    .put("image", userProfile.getImage()));
+            UserResponse userResponse = new UserResponse();
+            userResponse.setFirstname(userProfile.getFirstname());
+            userResponse.setLastname(userProfile.getLastname());
+            userResponse.setEmail(userProfile.getEmail());
+
+
+            ImageResponse imageResponse = new ImageResponse();
+            imageResponse.setName(userProfile.getImage().getName());
+            imageResponse.setContentType(userProfile.getImage().getContentType());
+            imageResponse.setData(userProfile.getImage().getData());
+            userResponse.setImage(imageResponse);
             return ResponseEntity.status(HttpStatus.OK)
                     .contentType(MediaType.APPLICATION_JSON)
-                    .body(responseBody.toString());
+                    .body(userResponse);
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>("Server Error Contact Help Center!", HttpStatus.INTERNAL_SERVER_ERROR);

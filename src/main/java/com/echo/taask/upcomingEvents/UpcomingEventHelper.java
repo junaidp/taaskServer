@@ -1,6 +1,5 @@
 package com.echo.taask.upcomingEvents;
 
-import com.echo.taask.other.dto.EventsDto;
 import com.echo.taask.user.User;
 import com.echo.taask.user.UserRepository;
 import lombok.RequiredArgsConstructor;

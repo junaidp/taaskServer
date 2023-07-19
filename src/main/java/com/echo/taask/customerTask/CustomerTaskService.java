@@ -176,17 +176,23 @@ public class CustomerTaskService {
             for (SubTask task : customerTaskRequest.getSubTask()) {
                 subTasks.add(task);
             }
-            customerTask.setTaskPriority(customerTaskRequest.getTaskPriority().toLowerCase());
-            customerTask.setCustomerTaskSerial(customerTaskExistingData.get().getCustomerTaskSerial());
-            customerTask.setCustomerSerialNumber(customerTaskRequest.getCustomerSerialNumber());
-            customerTask.setTaskName(customerTaskRequest.getTaskName());
-            customerTask.setDueDate(customerTaskRequest.getDueDate());
-            customerTask.setAssignedDate(customerTaskRequest.getAssignedDate());
-            customerTask.setStatus(customerTaskRequest.getStatus());
-            customerTask.setUserEmail(principal.getName());
-            customerTask.setSubTask(subTasks);
-            customerTaskRepository.save(customerTask);
-            return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON).body("Customer Task Updated!");
+            if (customerTaskExistingData.isPresent()) {
+                customerTask.setId(customerTaskExistingData.get().getId());
+                customerTask.setTaskPriority(customerTaskRequest.getTaskPriority().toLowerCase());
+                customerTask.setCustomerTaskSerial(customerTaskExistingData.get().getCustomerTaskSerial());
+                customerTask.setCustomerSerialNumber(customerTaskRequest.getCustomerSerialNumber());
+                customerTask.setTaskName(customerTaskRequest.getTaskName());
+                customerTask.setDueDate(customerTaskRequest.getDueDate());
+                customerTask.setAssignedDate(customerTaskRequest.getAssignedDate());
+                customerTask.setStatus(customerTaskRequest.getStatus());
+                customerTask.setUserEmail(principal.getName());
+                customerTask.setSubTask(subTasks);
+                customerTaskRepository.save(customerTask);
+                return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON).body("Customer Task Updated!");
+            }else {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).contentType(MediaType.APPLICATION_JSON).body("Customer Task ID Does Not Exist");
+
+            }
         }else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).contentType(MediaType.APPLICATION_JSON).body("Customer Task Payload Required!");
         }
