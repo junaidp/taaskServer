@@ -63,7 +63,9 @@ public class CustomerTaskService {
                 projectFile.setFilename(fileData.getOriginalFilename());
                 projectFile.setFiletype(fileData.getContentType());
                 projectFile.setFile(fileData.getBytes());
-                projectFile.setCustomerTaskSerial(customerTask.getCustomerSerialNumber());
+                projectFile.setCustomerSerial(null);
+                projectFile.setProjectHocSerial(null);
+                projectFile.setCustomerTaskSerial(customerTaskRequest.getCustomerSerialNumber());
                 projectFilesReporitory.save(projectFile);
             }
         }
@@ -140,7 +142,7 @@ public class CustomerTaskService {
             List<CustomerFilesDto> customerFilesList = new ArrayList<>();
             if (!files.isEmpty()) {
                 for (Files fileData : files) {
-                    com.echo.taask.customer.dto.CustomerFilesDto customerFilesDto = new com.echo.taask.customer.dto.CustomerFilesDto();
+                    CustomerFilesDto customerFilesDto = new CustomerFilesDto();
                     customerFilesDto.setUuid(fileData.getUuid());
                     customerFilesDto.setFilename(fileData.getFilename());
                     customerFilesDto.setFiletype(fileData.getFiletype());

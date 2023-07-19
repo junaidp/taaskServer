@@ -41,7 +41,6 @@ public class CustomerHelper {
     public ResponseEntity<?> saveCustomer(String authenticatedUser, CustomerDto customer, MultipartFile image, List<MultipartFile> file, List<CustomerLinkDto> customerLinkDto)
             throws IOException {
         Image uploadImage = new Image();
-        Files customerfile = new Files();
         byte[] imageBytes = image.getBytes();
         if (image != null && imageBytes.length > 0) {
             if (!isImage(image)) {
@@ -80,6 +79,8 @@ public class CustomerHelper {
                     customerLinks.setEmail(authenticatedUser);
                     customerLinks.setDescription(customerLinksData.getDescription());
                     customerLinks.setCustomerSerial(customerId);
+                    customerLinks.setCustomerTaskSerial(null);
+                    customerLinks.setProjectHocSerial(null);
                     customerLinksRepostiory.save(customerLinks);
                 }
             }
@@ -91,8 +92,10 @@ public class CustomerHelper {
                     projectFile.setFilename(fileData.getOriginalFilename());
                     projectFile.setFiletype(fileData.getContentType());
                     projectFile.setFile(fileData.getBytes());
-                    customerfile.setCustomerSerial(customerId);
-                    customerFilesRepository.save(customerfile);
+                    projectFile.setCustomerSerial(customerId);
+                    projectFile.setProjectHocSerial(null);
+                    projectFile.setCustomerTaskSerial(null);
+                    customerFilesRepository.save(projectFile);
 
                 }
             }
@@ -244,7 +247,7 @@ public class CustomerHelper {
         }
     }
 
-    public ResponseEntity<?> updateCustomer(String authenticatedUser, com.echo.taask.customer.dto.CustomerDto customerDto, String userId, MultipartFile image) {
+    public ResponseEntity<?> updateCustomer(String authenticatedUser, CustomerDto customerDto, String userId, MultipartFile image) {
         Optional<Customer> customerOptional = customerRepository.findBySerialNumberAndEmail(userId, authenticatedUser);
         if (customerOptional.isPresent()) {
             customerOptional.get().setCategory(customerDto.getCategory());
