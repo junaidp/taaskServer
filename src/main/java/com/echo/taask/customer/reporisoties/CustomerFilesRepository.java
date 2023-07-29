@@ -15,6 +15,9 @@ public interface CustomerFilesRepository extends MongoRepository<Files, String> 
     List<Files> findAllByCustomerTaskSerialAndEmail(String serialNumber, String email);
 
     Long deleteByEmailAndUuid(String email, String uuid);
+    Long deleteByEmailAndProjectHocSerial(String email,String uuid);
+
+    List<Files> findByEmailAndProjectHocSerial(String email, String projectHocUuid);
 
 
 }

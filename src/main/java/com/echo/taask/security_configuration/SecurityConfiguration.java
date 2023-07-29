@@ -28,7 +28,7 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/login/**", "/register/**", "/swagger*/**").permitAll()
                         .requestMatchers("/user/**", "/upcoming-events/**","/customerTask/**",
-                                "/customer/**", "/resources/**")
+                                "/customer/**", "/resources/**","/adHocProject/**")
                         .authenticated().anyRequest().permitAll()
                 )
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

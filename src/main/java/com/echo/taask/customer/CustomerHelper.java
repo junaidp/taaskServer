@@ -241,9 +241,9 @@ public class CustomerHelper {
             customerRepository.deleteBySerialNumberAndEmail(userId, authenticatedUser);
             customerLinksRepostiory.deleteAllByEmailAndCustomerSerial(authenticatedUser, customerOptional.get().getSerialNumber());
             customerFilesRepository.deleteAllByEmailAndCustomerSerial(authenticatedUser, customerOptional.get().getSerialNumber());
-            return ResponseEntity.status(HttpStatus.OK).body("Customer deleted successfully.");
+            return ResponseEntity.status(HttpStatus.OK).body("Customer Deleted Successfully.");
         } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Customer not found.");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Customer Not Found.");
         }
     }
 

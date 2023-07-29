@@ -3,13 +3,15 @@ package com.echo.taask.customer;
 
 import com.echo.taask.customer.dto.Contact;
 import com.echo.taask.recources.Image;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import nonapi.io.github.classgraph.json.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document
-@Data@Builder
+@Document@AllArgsConstructor
+@Data@Builder@RequiredArgsConstructor
 public class Customer {
     @Id
     private String id;
