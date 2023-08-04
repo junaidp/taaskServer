@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 
@@ -26,13 +27,12 @@ public class ResourceService {
     private final CustomerLinksRepostiory customerLinksRepostiory;
 
     public ResponseEntity<?> addResources(String customerId, String authenticatedUser, List<MultipartFile> file,
-                                          List <CustomerLinkDto> customerLinkDto) throws IOException {
+                                          List<CustomerLinkDto> customerLinkDto) throws IOException {
         Boolean fileCheck = false;
         Boolean linkCheck = false;
 
         if (file != null && !file.isEmpty()) {
-            for (MultipartFile filesData : file)
-            {
+            for (MultipartFile filesData : file) {
                 Files customerfile = new Files();
                 customerfile.setUuid(generateSerialNumber());
                 customerfile.setEmail(authenticatedUser);
@@ -49,8 +49,7 @@ public class ResourceService {
             }
         }
         if (customerLinkDto != null && !customerLinkDto.isEmpty()) {
-            for (CustomerLinkDto customerLinksData : customerLinkDto)
-            {
+            for (CustomerLinkDto customerLinksData : customerLinkDto) {
                 Links customerLinks = new Links();
                 customerLinks.setUuid(generateSerialNumber());
                 customerLinks.setLink(customerLinksData.getLink());
@@ -125,6 +124,61 @@ public class ResourceService {
 
     }
 
+    public ResponseEntity<?> updateResources(String fileUuid, String linkUuid, String authenticatedUser,
+                                             MultipartFile file, CustomerLinkDto customerLinkDto) throws IOException {
+
+        Boolean fileCheck = false;
+        Boolean linkCheck = false;
+
+        if (file != null && !file.isEmpty()) {
+            Optional<Files> fileData = customerFilesRepository.findByEmailAndUuid(authenticatedUser, fileUuid);
+            if (fileData.isPresent()) {
+                Files customerfile = new Files();
+                customerfile.setUuid(fileData.get().getUuid());
+                customerfile.setEmail(authenticatedUser);
+                customerfile.setFilename(file.getOriginalFilename());
+                customerfile.setFiletype(file.getContentType());
+                customerfile.setFile(file.getBytes());
+                customerfile.setCustomerSerial(fileData.get().getCustomerSerial());
+                customerFilesRepository.save(customerfile);
+                fileCheck = true;
+            }
+        }
+        if (customerLinkDto != null) {
+            Optional<Links> linkData = customerLinksRepostiory.findByEmailAndUuid(authenticatedUser, linkUuid);
+            if (linkData.isPresent()) {
+                Links customerLinks = new Links();
+                customerLinks.setUuid(linkData.get().getUuid());
+                customerLinks.setLink(customerLinkDto.getLink());
+                customerLinks.setDescription(customerLinkDto.getDescription());
+                customerLinks.setEmail(authenticatedUser);
+                customerLinks.setCustomerSerial(linkData.get().getCustomerSerial());
+                customerLinksRepostiory.save(customerLinks);
+                linkCheck = true;
+            }
+        }
+        if (fileCheck == true && linkCheck == true) {
+            return ResponseEntity.status(HttpStatus.OK)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body("File And Link Updated");
+        }
+        if (fileCheck == true) {
+            return ResponseEntity.status(HttpStatus.OK)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body("File Updated");
+        } if (linkCheck==true){
+            return ResponseEntity.status(HttpStatus.OK)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body("Link Updated");
+        }else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body("No Data Updated");
+        }
+
+    }
+
+
     public ResponseEntity<?> deleteResource(String authenticatedUser, String resourceId, String resourceType) {
         if ("file".equals(resourceType)) {
             return deleteFileResource(authenticatedUser, resourceId);
@@ -137,7 +191,7 @@ public class ResourceService {
 
     private ResponseEntity<?> deleteFileResource(String authenticatedUser, String resourceId) {
         Long contentDeleted = customerFilesRepository.deleteByEmailAndUuid(authenticatedUser, resourceId);
-        if (contentDeleted>0) {
+        if (contentDeleted > 0) {
             return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body("Content deleted");
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No Resource Found");
@@ -146,10 +200,12 @@ public class ResourceService {
 
     private ResponseEntity<?> deteleLink(String authenticatedUser, String resourceId) {
         Long contentDeleted = customerLinksRepostiory.deleteByEmailAndUuid(authenticatedUser, resourceId);
-        if (contentDeleted>0) {
+        if (contentDeleted > 0) {
             return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body("Content deleted");
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No Resource Found");
         }
     }
+
+
 }

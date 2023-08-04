@@ -4,6 +4,7 @@ import com.echo.taask.recources.Files;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 
 public interface CustomerFilesRepository extends MongoRepository<Files, String> {
@@ -18,6 +19,8 @@ public interface CustomerFilesRepository extends MongoRepository<Files, String> 
     Long deleteByEmailAndProjectHocSerial(String email,String uuid);
 
     List<Files> findByEmailAndProjectHocSerial(String email, String projectHocUuid);
+
+    Optional<Files> findByEmailAndUuid(String email, String uuid);
 
 
 }

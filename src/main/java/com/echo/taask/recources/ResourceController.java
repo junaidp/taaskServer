@@ -32,6 +32,21 @@ public class ResourceController {
         }
     }
 
+    @PutMapping
+    public ResponseEntity<?> updateResource(Principal principal,
+                                            @RequestPart(value = "file", required = false) MultipartFile file,
+                                            @RequestPart String fileUuid,
+                                            @RequestPart(value = "link", required = false) CustomerLinkDto customerLinkDto,
+                                            @RequestPart String linkUuid){
+        try {
+            return resourceService.updateResources(fileUuid,linkUuid, principal.getName(), file, customerLinkDto);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Please Contact Help Center");
+        }
+    }
+
+
     @GetMapping
     public ResponseEntity<?> getUserResources(Principal principal) {
         try {
