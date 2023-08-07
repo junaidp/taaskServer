@@ -134,6 +134,7 @@ public class ResourceService {
             Optional<Files> fileData = customerFilesRepository.findByEmailAndUuid(authenticatedUser, fileUuid);
             if (fileData.isPresent()) {
                 Files customerfile = new Files();
+                customerfile.setId(fileData.get().getId());
                 customerfile.setUuid(fileData.get().getUuid());
                 customerfile.setEmail(authenticatedUser);
                 customerfile.setFilename(file.getOriginalFilename());
@@ -148,6 +149,7 @@ public class ResourceService {
             Optional<Links> linkData = customerLinksRepostiory.findByEmailAndUuid(authenticatedUser, linkUuid);
             if (linkData.isPresent()) {
                 Links customerLinks = new Links();
+                customerLinks.setId(linkData.get().getId());
                 customerLinks.setUuid(linkData.get().getUuid());
                 customerLinks.setLink(customerLinkDto.getLink());
                 customerLinks.setDescription(customerLinkDto.getDescription());

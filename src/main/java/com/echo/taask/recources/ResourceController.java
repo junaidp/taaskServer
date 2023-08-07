@@ -35,9 +35,9 @@ public class ResourceController {
     @PutMapping
     public ResponseEntity<?> updateResource(Principal principal,
                                             @RequestPart(value = "file", required = false) MultipartFile file,
-                                            @RequestPart String fileUuid,
+                                            @RequestPart (value = "fileUuid", required = false) String fileUuid,
                                             @RequestPart(value = "link", required = false) CustomerLinkDto customerLinkDto,
-                                            @RequestPart String linkUuid){
+                                            @RequestPart (value = "linkUuid", required = false) String linkUuid){
         try {
             return resourceService.updateResources(fileUuid,linkUuid, principal.getName(), file, customerLinkDto);
         } catch (Exception e) {
