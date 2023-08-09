@@ -65,12 +65,14 @@ public class UserHelper {
             userResponse.setLastname(userProfile.getLastname());
             userResponse.setEmail(userProfile.getEmail());
 
+            if (userProfile.getImage().getData() != null || userProfile.getImage().getData().length > 0) {
+                ImageResponse imageResponse = new ImageResponse();
+                imageResponse.setName(userProfile.getImage().getName());
+                imageResponse.setContentType(userProfile.getImage().getContentType());
+                imageResponse.setData(userProfile.getImage().getData());
+                userResponse.setImage(imageResponse);
+            }
 
-            ImageResponse imageResponse = new ImageResponse();
-            imageResponse.setName(userProfile.getImage().getName());
-            imageResponse.setContentType(userProfile.getImage().getContentType());
-            imageResponse.setData(userProfile.getImage().getData());
-            userResponse.setImage(imageResponse);
             return ResponseEntity.status(HttpStatus.OK)
                     .contentType(MediaType.APPLICATION_JSON)
                     .body(userResponse);
