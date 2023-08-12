@@ -17,5 +17,7 @@ public class AdHocProject {
     private List<String> projectTask;
     private Date dueDate;
     private String Status;
+    private String discription;
+    private String resource;
     private String email;
 }

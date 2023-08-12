@@ -51,6 +51,8 @@ public class AdHocService {
             adHocProjectModel.setDueDate(adHocRequest.getDueDate());
             adHocProjectModel.setStatus(adHocRequest.getStatus());
             adHocProjectModel.setEmail(principal.getName());
+            adHocProjectModel.setResource(adHocRequest.getResource());
+            adHocProjectModel.setDiscription(adHocRequest.getDiscription());
             adHocProjectRepository.save(adHocProjectModel);
             storeAdHocProjectFile(file, principal.getName(), projectHocUuid);
             return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON)
@@ -72,6 +74,8 @@ public class AdHocService {
                 adHocProjectModel.setDueDate(adHocRequest.getDueDate());
                 adHocProjectModel.setStatus(adHocRequest.getStatus());
                 adHocProjectModel.setEmail(adHocProjectModel.getEmail());
+                adHocProjectModel.setResource(adHocRequest.getResource());
+                adHocProjectModel.setDiscription(adHocRequest.getDiscription());
                 adHocProjectRepository.save(adHocProjectModel);
                 return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON)
                         .body("AdHoc Projcet Updated");
@@ -125,6 +129,8 @@ public class AdHocService {
                 responsedata.setProjectTask(projectTask);
                 responsedata.setDueDate(data.getDueDate());
                 responsedata.setStatus(data.getStatus());
+                responsedata.setResource(data.getResource());
+                responsedata.setDiscription(data.getDiscription());
                 adHocProjectResponse.add(responsedata);
             }
             return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON)
@@ -141,7 +147,7 @@ public class AdHocService {
             AdHocProjectResponse responsedata = new AdHocProjectResponse();
             responsedata.setUuid(adHocProjectCheck.get().getUuid());
             responsedata.setProjectName(adHocProjectCheck.get().getProjectName());
-            responsedata.setResource(null);
+            responsedata.setResource(adHocProjectCheck.get().getResource());
             Optional<Customer> customer = customerRepository.findBySerialNumberAndEmail(adHocProjectCheck.get().getCustomerId(), principal.getName());
             if (customer.isPresent()) {
                 responsedata.setCustomerName(customer.get().getName());
@@ -155,6 +161,7 @@ public class AdHocService {
             responsedata.setProjectTask(projectTask);
             responsedata.setDueDate(adHocProjectCheck.get().getDueDate());
             responsedata.setStatus(adHocProjectCheck.get().getStatus());
+            responsedata.setDiscription(adHocProjectCheck.get().getDiscription());
             List<Files> adHocFile = filesRepository.findByEmailAndProjectHocSerial(principal.getName(), uuid);
             List<CustomerFilesDto> responseFile = new ArrayList<>();
             if (!adHocFile.isEmpty()) {

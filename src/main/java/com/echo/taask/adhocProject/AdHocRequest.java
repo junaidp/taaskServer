@@ -11,6 +11,8 @@ public class AdHocRequest {
     private String customerId;
     private String projectName;
     private List<String> projectTask;
+    private String discription;
+    private String resource;
     private Date dueDate;
     private String Status;
 }

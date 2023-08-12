@@ -11,6 +11,7 @@ public class AdHocProjectResponse {
     private String uuid;
     private String projectName;
     private String resource;
+    private String discription;
     private String customerName;
     private List<String> projectTask;
     private Date dueDate;
