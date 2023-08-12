@@ -14,6 +14,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
+import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
@@ -65,7 +66,7 @@ public class UserHelper {
             userResponse.setLastname(userProfile.getLastname());
             userResponse.setEmail(userProfile.getEmail());
 
-            if (userProfile.getImage().getData() != null || userProfile.getImage().getData().length > 0) {
+            if (userProfile.getImage() != null) {
                 ImageResponse imageResponse = new ImageResponse();
                 imageResponse.setName(userProfile.getImage().getName());
                 imageResponse.setContentType(userProfile.getImage().getContentType());
