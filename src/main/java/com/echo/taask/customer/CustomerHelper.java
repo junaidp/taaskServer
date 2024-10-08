@@ -248,7 +248,7 @@ public class CustomerHelper {
     }
 
     public ResponseEntity<?> updateCustomer(String authenticatedUser, CustomerDto customerDto, String userId, MultipartFile image) {
-        Optional<Customer> customerOptional = customerRepository.findBySerialNumberAndEmail(userId, authenticatedUser);
+        Optional<Customer> customerOptional = customerRepository.findByIdAndEmail(userId, authenticatedUser);
         if (customerOptional.isPresent()) {
             customerOptional.get().setCategory(customerDto.getCategory());
             customerOptional.get().setCustomerStage(customerDto.getCustomerStage());

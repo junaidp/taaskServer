@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface CustomerRepository extends MongoRepository<Customer, String> {
-    Optional<Customer> findByEmail(String email);
+    Optional<Customer> findByIdAndEmail(String id, String email);
     List<Customer> findAllByEmail(String email);
     Optional<Customer> findBySerialNumberAndEmail(String serialNumber, String email);
     Customer deleteBySerialNumberAndEmail(String serialNumber, String email);
